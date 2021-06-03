@@ -9,12 +9,12 @@
 				<h3>Tải ứng dụng</h3>
 				<p>Tải ứng dụng cho thiết bị của bạn</p>
 				<div class="app-logo">
-					<img src="images/play-store.png"> <img
-						src="images/app-store.png">
+					<img src="/images/play-store.png"> <img
+						src="/images/app-store.png">
 				</div>
 			</div>
 			<div class="footer-col-2">
-				<img src="images/logo-white.png">
+				<img src="/images/logo-white.png">
 				<p>Luôn bên bạn vì lợi ích của chính bạn</p>
 			</div>
 			<div class="footer-col-3">

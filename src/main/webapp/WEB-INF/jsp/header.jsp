@@ -12,7 +12,7 @@
 						<div class="nav-bar">
 							<div class="logo">
 								<a href="http://localhost:8080/FleeBounce/home"> <img
-									src="images/logo.png" />
+									src="/images/logo.png" />
 								</a>
 							</div>
 							<nav>
@@ -25,7 +25,7 @@
 								</ul>
 							</nav>
 						</div>
-						<a href="#" class="icon"> <img src="images/cart.png" />
+						<a href="#" class="icon"> <img src="/images/cart.png" />
 						</a>
 						<form action="${pageContext.request.contextPath}/AuthController"
 							method="post">
@@ -38,7 +38,7 @@
 						<div class="nav-bar">
 							<div class="logo">
 								<a href="http://localhost:8080/FleeBounce/home"> <img
-									src="images/logo.png" />
+									src="/images/logo.png" />
 								</a>
 							</div>
 							<nav>
@@ -52,7 +52,7 @@
 								</ul>
 							</nav>
 						</div>
-						<a href="#" class="icon"> <img src="images/cart.png" />
+						<a href="#" class="icon"> <img src="/images/cart.png" />
 						</a>
 						<form action="${pageContext.request.contextPath}/AuthController"
 							method="post">
@@ -67,7 +67,7 @@
 						<div class="nav-bar">
 							<div class="logo">
 								<a href="http://localhost:8080/FleeBounce/home"> <img
-									src="images/logo.png" />
+									src="/images/logo.png" />
 								</a>
 							</div>
 							<nav>
@@ -80,7 +80,7 @@
 									<li><a href="views/sigin.jsp">Đăng nhập</a></li>
 								</ul>
 							</nav>
-							<a href="#" class="icon"> <img src="images/cart.png" />
+							<a href="#" class="icon"> <img src="/images/cart.png" />
 							</a>
 						</div>
 					</div>
@@ -97,7 +97,7 @@
 			<a href="#" class="btn-content">Khám phá ngay &#8594;</a>
 		</div>
 		<div class="text-content">
-			<img src="images/image1.png" />
+			<img src="/images/image1.png" />
 		</div>
 	</div>
 </header>

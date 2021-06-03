@@ -2,21 +2,54 @@ package com.stg.demo.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.NotFound;
+
+import com.stg.demo.validate.CheckID;
+
+@Entity(name = "products")
 public class Products {
+	@Id
+	@GeneratedValue
 	int id;
+	@NotBlank
+	@Size(min = 3, max = 50)
 	String name;
+	@NotNull
+	@Pattern(regexp = "https?:\\/\\/.*\\.(?:png|jpg)", message = "Sai định dạng hình ảnh")
 	String images;
-	Date created;
+	@NotNull
+	Date created = new Date((new java.util.Date()).getTime());
+	@NotNull
+	@Min(1000)
+	@Max(1000000)
 	double price;
-	String description;
-	int categoryID;
+	@NotNull
+	String description = "Haha";
+	@CheckID
+	@ManyToOne
+	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "category_products"))
+	Category category;
 
 	public Products() {
 		super();
 	}
 
-	public Products(int id, String name, String images, Date created, double price, String description,
-			int categoryID) {
+	public Products(int id, String name, String images, Date created, double price, String description) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -24,7 +57,6 @@ public class Products {
 		this.created = created;
 		this.price = price;
 		this.description = description;
-		this.categoryID = categoryID;
 	}
 
 	public int getId() {
@@ -75,11 +107,12 @@ public class Products {
 		this.description = description;
 	}
 
-	public int getCategoryID() {
-		return categoryID;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategoryID(int categoryID) {
-		this.categoryID = categoryID;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
+
 }

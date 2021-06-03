@@ -28,30 +28,30 @@ public class HomeController {
 	public static final List<Products> PRODUCTS = new ArrayList<Products>();
 	static {
 
-		PRODUCTS.add(
-				new Products(0, "Áo puma 1", "https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg",
-						today, 900000, "Áo puma thiết kế đẹp, thoải mái khi vận động thể thao...", 0));
-		PRODUCTS.add(
-				new Products(1, "Áo puma 2", "https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg",
-						today, 900000, "Áo puma thiết kế đẹp, thoải mái khi vận động thể thao...", 0));
-		PRODUCTS.add(
-				new Products(2, "Áo puma 3", "https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg",
-						today, 900000, "Áo puma thiết kế đẹp, thoải mái khi vận động thể thao...", 0));
-		PRODUCTS.add(
-				new Products(3, "Áo puma 4", "https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg",
-						today, 900000, "Áo puma thiết kế đẹp, thoải mái khi vận động thể thao...", 0));
-		PRODUCTS.add(
-				new Products(4, "Áo puma 5", "https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg",
-						today, 900000, "Áo puma thiết kế đẹp, thoải mái khi vận động thể thao...", 0));
-		PRODUCTS.add(
-				new Products(6, "Áo puma 6", "https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg",
-						today, 900000, "Áo puma thiết kế đẹp, thoải mái khi vận động thể thao...", 0));
-		PRODUCTS.add(
-				new Products(7, "Áo puma 7", "https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg",
-						today, 900000, "Áo puma thiết kế đẹp, thoải mái khi vận động thể thao...", 0));
-		PRODUCTS.add(
-				new Products(8, "Áo puma 8", "https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg",
-						today, 900000, "Áo puma thiết kế đẹp, thoải mái khi vận động thể thao...", 0));
+		PRODUCTS.add(new Products(0, "Áo puma 1",
+				"https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg", today, 900000,
+				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
+		PRODUCTS.add(new Products(1, "Áo puma 2",
+				"https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg", today, 900000,
+				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
+		PRODUCTS.add(new Products(2, "Áo puma 3",
+				"https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg", today, 900000,
+				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
+		PRODUCTS.add(new Products(3, "Áo puma 4",
+				"https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg", today, 900000,
+				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
+		PRODUCTS.add(new Products(4, "Áo puma 5",
+				"https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg", today, 900000,
+				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
+		PRODUCTS.add(new Products(6, "Áo puma 6",
+				"https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg", today, 900000,
+				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
+		PRODUCTS.add(new Products(7, "Áo puma 7",
+				"https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg", today, 900000,
+				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
+		PRODUCTS.add(new Products(8, "Áo puma 8",
+				"https://fuvy.vn/www/uploads/images/%C3%A1o-puma-amplified-men-big-logo.jpg", today, 900000,
+				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
 	}
 
 	@GetMapping("")
@@ -59,5 +59,10 @@ public class HomeController {
 		model.addAttribute("categories", CATEGORIES);
 		model.addAttribute("products", PRODUCTS);
 		return "home";
+	}
+
+	@GetMapping("dashboard")
+	public String dashboard() {
+		return "dashboard";
 	}
 }
