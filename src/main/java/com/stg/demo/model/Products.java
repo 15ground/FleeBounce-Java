@@ -26,15 +26,15 @@ public class Products {
 	@Id
 	@GeneratedValue
 	int id;
-	@NotBlank
-	@Size(min = 3, max = 50)
+	@NotBlank(message = "Tên sản phẩm không được để trống!")
+	@Size(min = 3, max = 50, message = "Tên sản phẩm phải đủ kí tự!")
 	String name;
 	@NotNull
 	@Pattern(regexp = "https?:\\/\\/.*\\.(?:png|jpg)", message = "Sai định dạng hình ảnh")
 	String images;
 	@NotNull
 	Date created = new Date((new java.util.Date()).getTime());
-	@NotNull
+	@NotNull(message = "Giá sản phẩm không được để trống!")
 	@Min(1000)
 	@Max(1000000)
 	double price;
@@ -44,6 +44,7 @@ public class Products {
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "category_products"))
 	Category category;
+	String pictures;
 
 	public Products() {
 		super();
@@ -114,5 +115,25 @@ public class Products {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	public String getPictures() {
+		return pictures;
+	}
 
+	public void setPictures(String pictures) {
+		this.pictures = pictures;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Products) {
+			Products cProduct = (Products) obj;
+			return this.id == cProduct.getId();
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return id;
+	}
 }

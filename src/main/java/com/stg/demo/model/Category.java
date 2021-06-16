@@ -23,7 +23,7 @@ public class Category {
 	private int categoryID;
 
 	@NotNull
-	@Size(min = 3, max = 30)
+	@Size(min = 3, max = 30, message = "Tên danh mục không được để trống")
 	@Column(name = "name")
 	private String name;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL)
@@ -54,5 +54,13 @@ public class Category {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Products> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Products> products) {
+		this.products = products;
 	}
 }

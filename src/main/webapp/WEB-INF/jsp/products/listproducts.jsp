@@ -36,7 +36,8 @@
 					<h2>Danh mục</h2>
 					<c:forEach items="${categories}" var="category">
 						<ul>
-							<li><span>*</span><a href="danhmuc?id=${category.getCategoryID()}"
+							<li><span>*</span><a
+								href="/products/home?danhmuc=${category.getCategoryID()}"
 								class="list-group-item list-group-item-action">${category.getName()}</a></li>
 						</ul>
 					</c:forEach>
@@ -49,7 +50,7 @@
 			<div class="content">
 				<c:forEach items="${products}" var="pro">
 					<div class="pro-content">
-						<a href="products?id=${pro.getId()}"> <img
+						<a href="/products/details?id=${pro.id}"> <img
 							src="${pro.getImages()}" />
 						</a>
 						<h4>${pro.getName()}</h4>
@@ -68,34 +69,8 @@
 							<fmt:formatDate pattern="dd/MM/yyyy" value="${pro.getCreated()}" />
 						</p>
 						<p>*${pro.getDescription()}</p>
-						<button class="btn-content">Mua ngay</button>
-					</div>
-				</c:forEach>
-			</div>
-			<h2 class="pro-title">Sản phẩm bán chạy</h2>
-			<div class="content">
-				<c:forEach items="${products}" var="pro">
-					<div class="pro-content">
-						<a href="products?id=${pro.getId()}"> <img
-							src="${pro.getImages()}" />
-						</a>
-						<h4>${pro.getName()}</h4>
-						<div class="rating">
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-								class="fa fa-star-o"></i>
-						</div>
-						<p style="font-weight: 700; color: #ff2435; font-size: 18px;">
-							<fmt:formatNumber type="number" maxFractionDigits="1"
-								value="${pro.getPrice()}" />
-							vnd
-						</p>
-						<p>
-							Ngày đăng:
-							<fmt:formatDate pattern="dd/MM/yyyy" value="${pro.getCreated()}" />
-						</p>
-						<p>*${pro.getDescription()}</p>
-						<button class="btn-content">Mua ngay</button>
+						<a class="btn-content" href="/them-vao-gio/${pro.getId()}">Mua
+							ngay</a>
 					</div>
 				</c:forEach>
 			</div>

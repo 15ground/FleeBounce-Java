@@ -17,7 +17,7 @@
 							</div>
 							<nav>
 								<ul>
-									<li><a href="admin/dashboard.jsp">Dashboard</a></li>
+									<li><a href="dashboard.jsp">Dashboard</a></li>
 									<li><a href="#">Sản phẩm</a></li>
 									<li><a href="#">Giới thiệu</a></li>
 									<li><a href="#">Liên hệ</a></li>
@@ -43,7 +43,7 @@
 							</div>
 							<nav>
 								<ul>
-									<li><a href="http://localhost:8080/FleeBounce/home">Trang
+									<li><a href="/dashboard">Trang
 											chủ</a></li>
 									<li><a href="#">Sản phẩm</a></li>
 									<li><a href="#">Giới thiệu</a></li>
@@ -72,7 +72,7 @@
 							</div>
 							<nav>
 								<ul>
-									<li><a href="http://localhost:8080/FleeBounce/home">Trang
+									<li><a href="/dashboard">Trang
 											chủ</a></li>
 									<li><a href="#">Sản phẩm</a></li>
 									<li><a href="#">Giới thiệu</a></li>

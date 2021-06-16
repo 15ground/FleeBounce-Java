@@ -20,16 +20,16 @@
 				5</span>
 		</div>
 		<ul class="nav-links">
-			<li><a href="#" class="active"> <i class='bx bx-grid-alt'></i>
-					<span class="links_name">Trang chủ</span>
+			<li><a href="/dashboard" class="active"> <i class='bx bx-grid-alt'></i>
+					<span class="links_name">Dashboard</span>
 			</a></li>
-			<li><a href="/products/insert"> <i class='bx bx-box'></i> <span
+			<li><a href="/products/list"> <i class='bx bx-box'></i> <span
 					class="links_name">Sản phẩm</span>
 			</a></li>
-			<li><a href="#"> <i class='bx bx-list-ul'></i> <span
-					class="links_name">Đơn hàng</span>
+			<li><a href="/category/list"> <i class='bx bx-list-ul'></i> <span
+					class="links_name">Danh mục</span>
 			</a></li>
-			<li><a href="#"> <i class='bx bx-pie-chart-alt-2'></i> <span
+			<li><a href="/products/test"> <i class='bx bx-pie-chart-alt-2'></i> <span
 					class="links_name">Thống kê</span>
 			</a></li>
 			<li><a href="#"> <i class='bx bx-message'></i> <span

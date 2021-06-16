@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.stg.demo.model.Products;
 
 public interface ProductsResponsitory extends JpaRepository<Products, Integer> {
-	Page<Products> findByNameContaining(String name, Pageable pager);
+	Page<Products> findByNameContainingIgnoreCase(String name, Pageable pager);
 }

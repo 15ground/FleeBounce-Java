@@ -54,7 +54,7 @@ public class ProductsController {
 			return "products/insert";
 		}
 		productsResponsitory.save(products);
-		return "redirect:see";
+		return "redirect:list";
 	}
 
 	/*
@@ -63,14 +63,14 @@ public class ProductsController {
 	 * return "products/list"; }
 	 */
 
-	@GetMapping("list")
+	@GetMapping("home")
 	public String index(Model model) {
 		List<Products> products = productsResponsitory.findAll();
 		model.addAttribute("products", products);
 		return "products/listproducts";
 	}
 
-	@GetMapping("see")
+	@GetMapping("sort")
 	public String index(@RequestParam(name = "order",
 			// cài đặt giá trị mặc định để tránh lỗi
 			defaultValue = "id") String orderFeild, Model model) {
@@ -80,75 +80,87 @@ public class ProductsController {
 				// DESC là giảm dần
 				Sort.by(Direction.ASC, orderFeild));
 		model.addAttribute("products", products);
-		return "products/list";
+		return "products/listitems";
 	}
 
 	@GetMapping("edit")
 	public String index(@RequestParam(name = "id") int cId, Model model) {
 		Optional<Products> productsOption = productsResponsitory.findById(cId);
 		if (productsOption.isEmpty())
-			return "redirect:see";
+			return "redirect:list";
 		model.addAttribute("products", productsOption.get());
-		return "products/insert";
+		return "products/edit";
 	}
 
 	@PostMapping("edit")
 	public String index(@Valid @ModelAttribute("products") Products products, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "products/insert";
+			return "products/edit";
 		}
 
 		Optional<Products> productsOption = productsResponsitory.findById(products.getId());
 		if (productsOption.isEmpty())
-			return "redirect:see";
+			return "redirect:list";
 
 		Products productsOld = productsOption.get();
 		productsOld.setName(products.getName());
 		productsOld.setPrice(products.getPrice());
 		productsOld.setImages(products.getImages());
+		productsOld.setCategory(products.getCategory());
+		productsOld.setPictures(products.getPictures());
 		productsResponsitory.save(productsOld);
 
-		return "redirect:see";
+		return "redirect:list";
 	}
 
 	@GetMapping("delete")
 	public String delete(@RequestParam(name = "id") int cId) {
 		Optional<Products> productsOption = productsResponsitory.findById(cId);
 		if (productsOption.isEmpty())
-			return "redirect:see";
+			return "redirect:list";
 		productsResponsitory.delete(productsOption.get());
-		return "redirect:see";
+		return "redirect:list";
+	}
+
+	@GetMapping("details")
+	public String details(@RequestParam(name = "id") int cId, Model model) {
+		Optional<Products> productsOption = productsResponsitory.findById(cId);
+		if (productsOption.isEmpty())
+			return "redirect:list";
+		model.addAttribute("proDetails", productsOption.get());
+		return "prodetails";
 	}
 
 	// cài đặt tối đa 2 sản phẩm trên 1 trang
-	private static final int MAX_ITEMS = 2;
+	private static final int MAX_ITEMS = 3;
 
-	@GetMapping("page")
-	public String pagination(@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex, Model model) {
-		// Tạo phân trang
-		Pageable pager = PageRequest.of(pageIndex, MAX_ITEMS);
+//	@GetMapping("see")
+//	public String pagination(@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex,
+//			@RequestParam(name = "name", defaultValue = "") String name, Model model) {
+//		// Tạo phân trang
+//		Pageable pager = PageRequest.of(pageIndex, MAX_ITEMS);
+//
+//		// lấy sản phẩm
+//		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(name, pager);
+//
+//		model.addAttribute("products", productPage.getContent());
+//		// truyền vào số lượng page tối đa
+//		model.addAttribute("maxPage", productPage.getTotalPages());
+//		model.addAttribute("search", name);
+//		return "products/listitems";
+//	}
 
-		// lấy sản phẩm
-		Page<Products> productPage = productsResponsitory.findAll(pager);
-
-		model.addAttribute("products", productPage.getContent());
-		// truyền vào số lượng page tối đa
-		model.addAttribute("maxPage", productPage.getTotalPages());
-
-		return "products/list";
-	}
-
-	@GetMapping("search")
+	@GetMapping(value = { "list" })
 	public String search(@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex,
 			// thêm từ khóa tìm kiếm
-			@RequestParam(name = "name", defaultValue = "") String name, Model model) {
+			@RequestParam(name = "search", defaultValue = "") String search, Model model) {
 		Pageable pager = PageRequest.of(pageIndex, MAX_ITEMS);
 		// lấy sản phẩm
-		Page<Products> productPage = productsResponsitory.findByNameContaining(name, pager);
-
+		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(search, pager);
+		System.out.println("Name: " + search);
 		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("maxPage", productPage.getTotalPages());
-
-		return "products/list";
+		model.addAttribute("search", search);
+		return "products/listitems";
 	}
 }

@@ -13,7 +13,7 @@
 		<br />
 		<form:label path="name">Tên</form:label>
 		<form:input path="name"></form:input>
-		<form:errors path="name"></form:errors>
+		<form:errors path="name" style="color: red;"></form:errors>
 		<br />
 		<input type="submit" value="Gửi" />
 	</form:form>

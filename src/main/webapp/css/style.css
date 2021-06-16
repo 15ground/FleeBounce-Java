@@ -47,27 +47,27 @@
 	margin-top: 10px;
 }
 
-.sidebar .nav-links li {
+.nav-links li {
 	position: relative;
 	list-style: none;
 	height: 50px;
 }
 
-.sidebar .nav-links li a {
+.nav-links li a {
 	height: 100%;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	text-decoration: none;
+}
+
+/* .nav-links a:hover, .nav-links .active {
+	background: #081D45;
+} */
+.nav-links a:hover, 
+.nav-links .active {
+	background: #081D45;
 	transition: all 0.4s ease;
-}
-
-.sidebar .nav-links li a.active {
-	background: #081D45;
-}
-
-.sidebar .nav-links li a:hover {
-	background: #081D45;
 }
 
 .sidebar .nav-links li i {
