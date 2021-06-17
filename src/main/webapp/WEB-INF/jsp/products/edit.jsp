@@ -40,6 +40,9 @@
 			itemValue="categoryID" itemLabel="name" items="${categories}" />
 		<form:errors path="category" cssStyle="color:red"></form:errors>
 		<br />
+		<form:label path="description">Mô tả:</form:label>
+		<form:input path="description" placeholder="Mô tả sản phẩm..."></form:input>
+		<br />
 		<!-- upload image -->
 		<div>
 			<input style="width: 95%;" type="file" class="upload"

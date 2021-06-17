@@ -60,12 +60,11 @@ public class HomeController {
 				"Áo puma thiết kế đẹp, thoải mái khi vận động thể thao..."));
 	}
 
-	@GetMapping("")
-	public String home(Model model) {
-		model.addAttribute("categories", CATEGORIES);
-		model.addAttribute("products", PRODUCTS);
-		return "home";
-	}
+	/*
+	 * @GetMapping("") public String home(Model model) {
+	 * model.addAttribute("categories", CATEGORIES); model.addAttribute("products",
+	 * PRODUCTS); return "home"; }
+	 */
 
 	@GetMapping("dashboard")
 	public String dashboard() {

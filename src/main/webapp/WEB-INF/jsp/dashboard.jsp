@@ -15,22 +15,23 @@
 </head>
 <body>
 	<div class="sidebar">
-		<div class="logo-details">
-			<i class='bx bxl-c-plus-plus'></i> <span class="logo_name">De
-				5</span>
+		<div class="logo-details" style="text-decoration: none;">
+			<a href="/products"> <i class='bx bxl-c-plus-plus'></i>
+			</a><span class="logo_name">De 5</span>
 		</div>
 		<ul class="nav-links">
-			<li><a href="/dashboard" class="active"> <i class='bx bx-grid-alt'></i>
-					<span class="links_name">Dashboard</span>
+			<li><a href="/dashboard" class="active"> <i
+					class='bx bx-grid-alt'></i> <span class="links_name">Dashboard</span>
 			</a></li>
 			<li><a href="/products/list"> <i class='bx bx-box'></i> <span
 					class="links_name">Sản phẩm</span>
 			</a></li>
-			<li><a href="/category/list"> <i class='bx bx-list-ul'></i> <span
-					class="links_name">Danh mục</span>
+			<li><a href="/category/list"> <i class='bx bx-list-ul'></i>
+					<span class="links_name">Danh mục</span>
 			</a></li>
-			<li><a href="/products/test"> <i class='bx bx-pie-chart-alt-2'></i> <span
-					class="links_name">Thống kê</span>
+			<li><a href="/products/test"> <i
+					class='bx bx-pie-chart-alt-2'></i> <span class="links_name">Thống
+						kê</span>
 			</a></li>
 			<li><a href="#"> <i class='bx bx-message'></i> <span
 					class="links_name">Tin nhắn</span>

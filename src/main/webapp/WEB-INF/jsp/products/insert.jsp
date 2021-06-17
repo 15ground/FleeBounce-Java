@@ -24,7 +24,7 @@
     font-style: italic;"></form:errors>
 		<br />
 		<form:label path="price">Giá bán:</form:label>
-		<form:input path="price" placeholder="Giá bán..."></form:input>
+		<form:input path="price" placeholder="Giá bán..." value="0"></form:input>
 		<form:errors path="price"
 			cssStyle="color:red;margin-left: 10px;
     font-style: italic;"></form:errors>
@@ -39,6 +39,9 @@
 		<form:select class="selected-box" path="category.categoryID"
 			itemValue="categoryID" itemLabel="name" items="${categories}" />
 		<form:errors path="category" cssStyle="color:red"></form:errors>
+		<br />
+		<form:label path="description">Mô tả:</form:label>
+		<form:input path="description" placeholder="Mô tả sản phẩm..."></form:input>
 		<br />
 		<!-- upload image -->
 		<div>

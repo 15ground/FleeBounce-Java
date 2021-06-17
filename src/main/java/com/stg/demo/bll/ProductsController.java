@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stg.demo.model.Category;
 import com.stg.demo.model.Products;
+import com.stg.demo.model.SearchForm;
 import com.stg.demo.reponsitory.CategoriesReponsitory;
 import com.stg.demo.reponsitory.ProductsResponsitory;
 
@@ -35,6 +36,22 @@ public class ProductsController {
 	public List<Category> getCategories() {
 		List<Category> categories = categoriesResponsitory.findAll();
 		return categories;
+	}
+
+	// cài đặt tối đa 8 sản phẩm trên 1 trang
+	private static final int HOME_ITEMS = 8;
+
+	@GetMapping("")
+	public String testlist(@ModelAttribute(name = "searchForm") SearchForm sf, Model model) {
+
+		Pageable pagin = PageRequest.of(sf.getPage(), HOME_ITEMS, sf.isIndex() ? Direction.ASC : Direction.DESC,
+				sf.getSortBy());
+		// lấy sản phẩm
+		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(sf.getName(), pagin);
+		model.addAttribute("products", productPage.getContent());
+		model.addAttribute("maxPage", productPage.getTotalPages());
+
+		return "products/listproducts";
 	}
 
 	@GetMapping(path = "insert")
@@ -55,32 +72,6 @@ public class ProductsController {
 		}
 		productsResponsitory.save(products);
 		return "redirect:list";
-	}
-
-	/*
-	 * @GetMapping("see") public String list(Model model) { List<Products> products
-	 * = productsResponsitory.findAll(); model.addAttribute("products", products);
-	 * return "products/list"; }
-	 */
-
-	@GetMapping("home")
-	public String index(Model model) {
-		List<Products> products = productsResponsitory.findAll();
-		model.addAttribute("products", products);
-		return "products/listproducts";
-	}
-
-	@GetMapping("sort")
-	public String index(@RequestParam(name = "order",
-			// cài đặt giá trị mặc định để tránh lỗi
-			defaultValue = "id") String orderFeild, Model model) {
-		List<Products> products = productsResponsitory.findAll(
-				// Direction có 2 loại
-				// ASC tăng dần
-				// DESC là giảm dần
-				Sort.by(Direction.ASC, orderFeild));
-		model.addAttribute("products", products);
-		return "products/listitems";
 	}
 
 	@GetMapping("edit")
@@ -108,6 +99,7 @@ public class ProductsController {
 		productsOld.setImages(products.getImages());
 		productsOld.setCategory(products.getCategory());
 		productsOld.setPictures(products.getPictures());
+		productsOld.setDescription(products.getDescription());
 		productsResponsitory.save(productsOld);
 
 		return "redirect:list";
@@ -131,36 +123,35 @@ public class ProductsController {
 		return "prodetails";
 	}
 
-	// cài đặt tối đa 2 sản phẩm trên 1 trang
-	private static final int MAX_ITEMS = 3;
+	// cài đặt tối đa 5 sản phẩm trên 1 trang
+	private static final int MAX_ITEMS = 5;
 
-//	@GetMapping("see")
-//	public String pagination(@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex,
-//			@RequestParam(name = "name", defaultValue = "") String name, Model model) {
-//		// Tạo phân trang
-//		Pageable pager = PageRequest.of(pageIndex, MAX_ITEMS);
-//
-//		// lấy sản phẩm
-//		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(name, pager);
-//
-//		model.addAttribute("products", productPage.getContent());
-//		// truyền vào số lượng page tối đa
-//		model.addAttribute("maxPage", productPage.getTotalPages());
-//		model.addAttribute("search", name);
-//		return "products/listitems";
-//	}
+	/*
+	 * CÁCH CŨ
+	 * 
+	 * @GetMapping(value = { "list" }) public String search(@RequestParam(name =
+	 * "pageIndex", defaultValue = "0") int pageIndex, // thêm từ khóa tìm kiếm
+	 * 
+	 * @RequestParam(name = "search", defaultValue = "") String search, Model model)
+	 * { Pageable pager = PageRequest.of(pageIndex, MAX_ITEMS); // lấy sản phẩm
+	 * Page<Products> productPage =
+	 * productsResponsitory.findByNameContainingIgnoreCase(search, pager);
+	 * System.out.println("Name: " + search); model.addAttribute("products",
+	 * productPage.getContent()); model.addAttribute("maxPage",
+	 * productPage.getTotalPages()); model.addAttribute("search", search); return
+	 * "products/listitems"; }
+	 */
 
-	@GetMapping(value = { "list" })
-	public String search(@RequestParam(name = "pageIndex", defaultValue = "0") int pageIndex,
-			// thêm từ khóa tìm kiếm
-			@RequestParam(name = "search", defaultValue = "") String search, Model model) {
-		Pageable pager = PageRequest.of(pageIndex, MAX_ITEMS);
+	@GetMapping("list")
+	public String search1(@ModelAttribute(name = "searchForm") SearchForm sf, Model model) {
+
+		Pageable pagin = PageRequest.of(sf.getPage(), MAX_ITEMS, sf.isIndex() ? Direction.ASC : Direction.DESC,
+				sf.getSortBy());
 		// lấy sản phẩm
-		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(search, pager);
-		System.out.println("Name: " + search);
+		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(sf.getName(), pagin);
 		model.addAttribute("products", productPage.getContent());
 		model.addAttribute("maxPage", productPage.getTotalPages());
-		model.addAttribute("search", search);
+
 		return "products/listitems";
 	}
 }

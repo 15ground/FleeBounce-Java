@@ -4,6 +4,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,6 +45,9 @@
 				</div>
 			</div>
 		</div>
+		<sf:form modelAttribute="searchForm" acion="testlist" method="get">
+			<sf:input path="page" id="pageInput" type="hidden" />
+		</sf:form>
 		<!-- Sản phẩm -->
 		<div class="small-container">
 			<h2 class="pro-title">Sản phẩm mới</h2>
@@ -62,25 +66,27 @@
 						<p style="font-weight: 700; color: #ff2435; font-size: 18px;">
 							<fmt:formatNumber type="number" maxFractionDigits="1"
 								value="${pro.getPrice()}" />
-							vnd
+							đ
 						</p>
 						<p>
 							Ngày đăng:
 							<fmt:formatDate pattern="dd/MM/yyyy" value="${pro.getCreated()}" />
 						</p>
-						<p>*${pro.getDescription()}</p>
+						<p
+							style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">*${pro.description }</p>
 						<a class="btn-content" href="/them-vao-gio/${pro.getId()}">Mua
 							ngay</a>
 					</div>
 				</c:forEach>
 			</div>
-			<div class="page-btn">
-				<span>&#8592</span>
-				<c:forEach var="i" begin="1" end="5">
-					<span${i == ItemOfPage ? "ItemOfPage" : ""  }"><a
-						class="page-link" href="products?page=${i}">${i}</a></span>
-				</c:forEach>
-				<span>&#8594</span>
+			<div class="page-btn" style="margin: 0 auto; text-align: center;">
+				<c:if test="${maxPage > 1 }">
+					<c:forEach var="pageIndex" begin="0" end="${maxPage - 1}">
+						<button trang="${pageIndex}"
+							class="trang<c:if test="${pageIndex == searchForm.page}"> active</c:if>">
+							${pageIndex + 1}</button>
+					</c:forEach>
+				</c:if>
 			</div>
 		</div>
 		<div class="offer">
@@ -123,5 +129,14 @@
 		</div>
 	</section>
 	<c:import url="/WEB-INF/jsp/footer.jsp"></c:import>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		$('.trang').click(function() {
+			var trang = $(this).attr('trang');
+			$('form #pageInput').val(trang);
+			$('form').submit();
+		});
+	</script>
 </body>
 </html>

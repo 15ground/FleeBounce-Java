@@ -38,8 +38,7 @@ public class Products {
 	@Min(1000)
 	@Max(1000000)
 	double price;
-	@NotNull
-	String description = "Haha";
+	String description;
 	@CheckID
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "category_products"))
@@ -115,6 +114,7 @@ public class Products {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
 	public String getPictures() {
 		return pictures;
 	}

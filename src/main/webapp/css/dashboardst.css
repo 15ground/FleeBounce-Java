@@ -43,6 +43,10 @@ table>thead th {
 table th, table td {
 	border: 1px solid #00000017;
 	padding: 10px 15px;
+	max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 table>tbody>tr>td>img {
@@ -136,7 +140,26 @@ table>tbody>tr:hover {
 	font-weight: 600;
 }
 
-.page-btn .page-link:hover{
+.page-btn .page-link:hover {
+	background-color: #00bcd4;
+	color: #fff;
+}
+
+.page-btn .trang {
+	display: inline-block;
+	border: 1px solid #00bcd4;
+	margin-left: 5px;
+	border-radius: 30px;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.page-btn .trang:hover {
 	background-color: #00bcd4;
 	color: #fff;
 }

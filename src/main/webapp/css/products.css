@@ -103,7 +103,7 @@ Những flex item sẽ có thể bị tách thành hai dòng nếu như tổng c
 	background-color: #ff1464;
 	color: #fff;
 	padding: 8px 30px;
-	margin: 30px 0;
+	margin: 15px 0;
 	border-radius: 20px;
 	transition: 0.5s;
 	font-weight: 600;
@@ -193,7 +193,8 @@ Những flex item sẽ có thể bị tách thành hai dòng nếu như tổng c
 
 h4 {
 	color: #555;
-	font-weight: normal;
+	font-weight: 800;
+	font-size: 18px;
 }
 
 .pro-content p {
@@ -542,5 +543,25 @@ th:last-child {
 
 .box ul li:hover span {
 	background: #ff1464;
+	color: #fff;
+}
+
+.page-btn .trang {
+	display: inline-block;
+	border: 1px solid #ff1464;
+	margin-left: 5px;
+	border-radius: 30px;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+	background: #fff;
+}
+
+.page-btn .trang:hover {
+	background-color: #ff1464;
 	color: #fff;
 }
