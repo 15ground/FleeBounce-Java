@@ -32,25 +32,22 @@
 					</div>
 				</div>
 			</div>
-			<div class="box-container">
-				<div class="box">
-					<h2>Danh mục</h2>
-					<c:forEach items="${categories}" var="category">
-						<ul>
-							<li><span>*</span><a
-								href="/products/home?danhmuc=${category.getCategoryID()}"
-								class="list-group-item list-group-item-action">${category.getName()}</a></li>
-						</ul>
-					</c:forEach>
-				</div>
-			</div>
 		</div>
-		<sf:form modelAttribute="searchForm" acion="testlist" method="get">
-			<sf:input path="page" id="pageInput" type="hidden" />
-		</sf:form>
 		<!-- Sản phẩm -->
 		<div class="small-container">
-			<h2 class="pro-title">Sản phẩm mới</h2>
+			<h2 class="pro-title" style="margin: 0 auto 20px;">Sản phẩm mới</h2>
+			<div class="box-container"
+				style="min-height: 5vh; width: 180px; margin: 10px;">
+				<h4 style="white-space: nowrap;">Lọc theo:</h4>
+				<select id="select-category" onchange="onSelectCategory(event)"
+					style="margin-left: 10px; margin-top: 3px; display: block; padding: 5px; border: 1px solid #ff1464; font-weight: 600; font-size: 16px; border-radius: 7px; cursor: pointer;">
+					<option value=0>Tất cả</option>
+					<c:forEach items="${categories}" var="category">
+						<option value="${category.categoryID}">${category.name}</option>
+					</c:forEach>
+
+				</select>
+			</div>
 			<div class="content">
 				<c:forEach items="${products}" var="pro">
 					<div class="pro-content">
@@ -80,11 +77,11 @@
 				</c:forEach>
 			</div>
 			<div class="page-btn" style="margin: 0 auto; text-align: center;">
-				<c:if test="${maxPage > 1 }">
+				<c:if test="${maxPage > 1}">
 					<c:forEach var="pageIndex" begin="0" end="${maxPage - 1}">
-						<button trang="${pageIndex}"
-							class="trang<c:if test="${pageIndex == searchForm.page}"> active</c:if>">
-							${pageIndex + 1}</button>
+						<a href="/products?page=${pageIndex }&categoryID=${categoryID}"
+							class='${pageIndex == page ? "trang active" : "trang"}'>
+							${pageIndex + 1} </a>
 					</c:forEach>
 				</c:if>
 			</div>
@@ -132,11 +129,36 @@
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
-		$('.trang').click(function() {
-			var trang = $(this).attr('trang');
-			$('form #pageInput').val(trang);
-			$('form').submit();
-		});
+		onSelectLoaded();
+		function onSelectCategory(event) {
+			let select = event.target;
+			let value = select.value;
+
+			let aTag = document.createElement("a");
+			aTag.href = "/products?categoryID=" + value;
+
+			document.body.appendChild(aTag);
+			aTag.click();
+		}
+
+		function onSelectLoaded() {
+			let select = document.getElementById("select-category");
+			let s_url = window.location.href;
+			let id = 0;
+
+			s_url = s_url.substring(s_url.indexOf("?"), s_url.length);
+			let params = new URLSearchParams(s_url);
+
+			if (params.has("categoryID")) {
+				id = params.get("categoryID");
+				for (let i = 0; i < select.length; i++) {
+					const option = select[i];
+					if (option.value == id) {
+						select.selectedIndex = i;
+					}
+				}
+			}
+		}
 	</script>
 </body>
 </html>

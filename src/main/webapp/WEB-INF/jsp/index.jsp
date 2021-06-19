@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -23,6 +24,29 @@ button.close {
 </style>
 </head>
 <body>
+	${lang}
+	<header>
+		<nav>
+			<ul>
+				<li><a href="/products"> <s:message code="lo.index.home" />
+				</a></li>
+				<li><a href="/products/list"> <s:message
+							code="lo.index.products" />
+				</a></li>
+				<li><a href="/your-cart"> <s:message code="lo.index.card" />
+				</a></li>
+			</ul>
+			<ul>
+				<li><a
+					href="${requestScope['javax.servlet.forward.request_uri']}?lang=en">
+						<s:message code="lo.index.en" />
+				</a> <a
+					href="${requestScope['javax.servlet.forward.request_uri']}?lang=vi">
+						<s:message code="lo.index.vi" />
+				</a></li>
+			</ul>
+		</nav>
+	</header>
 	<h1>${title}</h1>
 	<ul>
 		<c:forEach var="category" items="${categories}">
@@ -37,7 +61,7 @@ button.close {
 		email : ${footerInfo.email} <br /> Số điện thoại:
 		${footerInfo.phoneNumber} <br />
 	</footer>
-
+	<h1>${title}</h1>
 	<button class="mo-gio-hang">Mở giỏ hàng</button>
 
 	<div class="gio-hang">

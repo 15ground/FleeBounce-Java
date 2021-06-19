@@ -42,14 +42,23 @@ public class ProductsController {
 	private static final int HOME_ITEMS = 8;
 
 	@GetMapping("")
-	public String testlist(@ModelAttribute(name = "searchForm") SearchForm sf, Model model) {
+	public String testlist(@RequestParam(value = "key", defaultValue = "") String key,
+			@RequestParam(value = "categoryID", defaultValue = "0") int categoryID,
+			@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
 
-		Pageable pagin = PageRequest.of(sf.getPage(), HOME_ITEMS, sf.isIndex() ? Direction.ASC : Direction.DESC,
-				sf.getSortBy());
+		Pageable pagin = PageRequest.of(page, HOME_ITEMS);
 		// lấy sản phẩm
-		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(sf.getName(), pagin);
+		Page<Products> productPage = productsResponsitory.searchProductsPagin(key, categoryID, pagin);
+
+		// data
+		model.addAttribute("categories", getCategories());
 		model.addAttribute("products", productPage.getContent());
+		// pagin
 		model.addAttribute("maxPage", productPage.getTotalPages());
+		model.addAttribute("page", page);
+
+		// search
+		model.addAttribute("categoryID", categoryID);
 
 		return "products/listproducts";
 	}
@@ -143,7 +152,7 @@ public class ProductsController {
 	 */
 
 	@GetMapping("list")
-	public String search1(@ModelAttribute(name = "searchForm") SearchForm sf, Model model) {
+	public String list(@ModelAttribute(name = "searchForm") SearchForm sf, Model model) {
 
 		Pageable pagin = PageRequest.of(sf.getPage(), MAX_ITEMS, sf.isIndex() ? Direction.ASC : Direction.DESC,
 				sf.getSortBy());

@@ -32,7 +32,7 @@ header .content {
 	right: 0;
 	left: 0;
 	z-index: 999999999999999;
-	border-bottom: 1px solid #000;
+	box-shadow: 0px 0px 4px 0px gainsboro;
 }
 
 .nav-bar {
@@ -134,7 +134,7 @@ Những flex item sẽ có thể bị tách thành hai dòng nếu như tổng c
 }
 
 .categories {
-	margin: 70px 0;
+	margin: 70px 0 0;
 }
 
 .cate-content {
@@ -411,7 +411,7 @@ input:focus {
 }
 
 .small-container #cartPage {
-	margin-top: 150px;
+	margin-top: -50px;
 }
 
 .cart-page {
@@ -433,7 +433,6 @@ th {
 	padding: 5px;
 	color: #fff;
 	background: #ff1464;
-	font-weight: normal;
 }
 
 td {
@@ -446,9 +445,14 @@ td input {
 	padding: 5px;
 }
 
-td a {
+td button {
 	color: #ff1464;
 	font-size: 12px;
+	background: white;
+	outline: none;
+	border: none;
+	font-weight: 700;
+	cursor: pointer
 }
 
 td img {
@@ -459,8 +463,9 @@ td img {
 
 .total-price {
 	display: flex;
-	justify-content: flex-end;
 	margin: 50px auto;
+	flex-direction: column;
+	float: right
 }
 
 .total-price table {
@@ -561,7 +566,19 @@ th:last-child {
 	background: #fff;
 }
 
-.page-btn .trang:hover {
+.page-btn .trang:hover, .page-btn .active {
 	background-color: #ff1464;
 	color: #fff;
+}
+
+.btn-add {
+	border: none;
+	padding: 14px;
+	background: #ff1464;
+	color: white;
+	font-weight: 600;
+	cursor: pointer;
+	border-radius: 7px;
+	text-align: center;
+	font-size: 14px;
 }

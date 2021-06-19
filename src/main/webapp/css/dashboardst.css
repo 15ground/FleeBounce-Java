@@ -159,7 +159,7 @@ table>tbody>tr:hover {
 	font-weight: 600;
 }
 
-.page-btn .trang:hover {
+.page-btn .trang:hover, .page-btn .active {
 	background-color: #00bcd4;
 	color: #fff;
 }

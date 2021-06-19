@@ -11,13 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.NotFound;
 
 import com.stg.demo.validate.CheckID;
 
@@ -27,7 +23,7 @@ public class Products {
 	@GeneratedValue
 	int id;
 	@NotBlank(message = "Tên sản phẩm không được để trống!")
-	@Size(min = 3, max = 50, message = "Tên sản phẩm phải đủ kí tự!")
+	@Size(max = 50, message = "Tên sản phẩm không được quá 50 ký tự!")
 	String name;
 	@NotNull
 	@Pattern(regexp = "https?:\\/\\/.*\\.(?:png|jpg)", message = "Sai định dạng hình ảnh")
@@ -36,7 +32,7 @@ public class Products {
 	Date created = new Date((new java.util.Date()).getTime());
 	@NotNull(message = "Giá sản phẩm không được để trống!")
 	@Min(1000)
-	@Max(1000000)
+	@Max(10000000)
 	double price;
 	String description;
 	@CheckID

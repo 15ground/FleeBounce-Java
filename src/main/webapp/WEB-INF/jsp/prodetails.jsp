@@ -8,8 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Chi tiết sản phẩm</title>
-<link rel="stylesheet"
-	href="/css/products.css" />
+<link rel="stylesheet" href="/css/products.css" />
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
@@ -53,8 +52,8 @@
 						<option>M</option>
 						<option>L</option>
 						<option>XL</option>
-					</select> <input type="number" value="1" />
-					<button class="btn-content">Mua ngay</button>
+					</select> <input type="number" value="1" /> <a class="btn-content"
+						href="/them-vao-gio/${proDetails.getId()}">Mua ngay</a>
 					<h3>
 						Chi tiết sản phẩm <i class="fa fa-indent"></i>
 					</h3>
