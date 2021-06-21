@@ -23,7 +23,7 @@ import com.stg.demo.service.MailService;
 
 @Controller
 public class HomeController {
-	@GetMapping("")
+	@GetMapping("/")
 	public String home() {
 		return "redirect:/products";
 	}
