@@ -35,9 +35,9 @@
 			cssStyle="color:red;margin-left: 10px;
     font-style: italic;"></form:errors>
 		<br />
-		<form:label path="category.categoryID">Danh mục sản phẩm:</form:label>
-		<form:select class="selected-box" path="category.categoryID"
-			itemValue="categoryID" itemLabel="name" items="${categories}" />
+		<form:label path="category.id">Danh mục sản phẩm:</form:label>
+		<form:select class="selected-box" path="category.id"
+			itemValue="id" itemLabel="name" items="${categories}" />
 		<form:errors path="category" cssStyle="color:red"></form:errors>
 		<br />
 		<form:label path="description">Mô tả:</form:label>
