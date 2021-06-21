@@ -29,11 +29,6 @@ public class HomeController {
 		return "dashboard";
 	}
 
-	@GetMapping("test")
-	public String test() {
-		return "index";
-	}
-
 	@Autowired
 	CartService cartService;
 

@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <link rel="stylesheet" href="/css/products.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -11,13 +12,12 @@
 					<c:if test="${currentUser.getRole() eq 'admin' }">
 						<div class="nav-bar">
 							<div class="logo">
-								<a href="http://localhost:8080/FleeBounce/home"> <img
-									src="/images/logo.png" />
+								<a href="/products"> <img src="/images/logo.png" />
 								</a>
 							</div>
 							<nav>
 								<ul>
-									<li><a href="dashboard.jsp">Dashboard</a></li>
+									<li><a href="/dashboard">Dashboard</a></li>
 									<li><a href="#">Sản phẩm</a></li>
 									<li><a href="#">Giới thiệu</a></li>
 									<li><a href="#">Liên hệ</a></li>
@@ -25,7 +25,7 @@
 								</ul>
 							</nav>
 						</div>
-						<a href="#" class="icon"> <img src="/images/cart.png" />
+						<a href="/your-cart" class="icon"> <img src="/images/cart.png" />
 						</a>
 						<form action="${pageContext.request.contextPath}/AuthController"
 							method="post">
@@ -37,14 +37,12 @@
 					<c:if test="${currentUser.getRole() eq 'user' }">
 						<div class="nav-bar">
 							<div class="logo">
-								<a href="http://localhost:8080/FleeBounce/home"> <img
-									src="/images/logo.png" />
+								<a href="/products"> <img src="/images/logo.png" />
 								</a>
 							</div>
 							<nav>
 								<ul>
-									<li><a href="/dashboard">Trang
-											chủ</a></li>
+									<li><a href="/dashboard">Trang chủ</a></li>
 									<li><a href="#">Sản phẩm</a></li>
 									<li><a href="#">Giới thiệu</a></li>
 									<li><a href="#">Liên hệ</a></li>
@@ -52,7 +50,7 @@
 								</ul>
 							</nav>
 						</div>
-						<a href="#" class="icon"> <img src="/images/cart.png" />
+						<a href="/your-cart" class="icon"> <img src="/images/cart.png" />
 						</a>
 						<form action="${pageContext.request.contextPath}/AuthController"
 							method="post">
@@ -66,21 +64,22 @@
 					<div class="container-nav">
 						<div class="nav-bar">
 							<div class="logo">
-								<a href="http://localhost:8080/FleeBounce/home"> <img
-									src="/images/logo.png" />
+								<a href="/products"> <img src="/images/logo.png" />
 								</a>
 							</div>
 							<nav>
 								<ul>
-									<li><a href="/dashboard">Trang
-											chủ</a></li>
-									<li><a href="#">Sản phẩm</a></li>
-									<li><a href="#">Giới thiệu</a></li>
-									<li><a href="#">Liên hệ</a></li>
-									<li><a href="views/sigin.jsp">Đăng nhập</a></li>
+									<li><a href="/dashboard"><s:message
+												code="lo.index.home" /></a></li>
+									<li><a href="#"><s:message code="lo.index.products" /></a></li>
+									<li><a href="#"><s:message code="lo.index.about" /></a></li>
+									<li><a href="#"><s:message code="lo.index.contact" /></a></li>
+									<li><a href="views/sigin.jsp"><s:message
+												code="lo.index.login" /></a></li>
 								</ul>
 							</nav>
-							<a href="#" class="icon"> <img src="/images/cart.png" />
+							<a href="/your-cart" class="icon"> <img
+								src="/images/cart.png" />
 							</a>
 						</div>
 					</div>
@@ -91,10 +90,13 @@
 	<div class="content">
 		<div class="text-content">
 			<h1>
-				Phong cách mới,<br />kỉ nguyên mới từ FleeBounce
+				<s:message code="lo.index.title1" />
 			</h1>
-			<p>Đi đầu và tiên phong cho phong cách sống của bạn!</p>
-			<a href="#" class="btn-content">Khám phá ngay &#8594;</a>
+			<p>
+				<s:message code="lo.index.title2" />
+			</p>
+			<a href="#" class="btn-content"><s:message code="lo.index.title" />
+				&#8594;</a>
 		</div>
 		<div class="text-content">
 			<img src="/images/image1.png" />

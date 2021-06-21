@@ -11,7 +11,7 @@
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css'
 	rel='stylesheet'>
 <link rel="stylesheet" href="/css/dashboardst.css">
-<title>Sản phẩm</title>
+<title>Danh mục</title>
 </head>
 <body>
 	<div class="sidebar">
@@ -23,11 +23,11 @@
 			<li><a href="/dashboard"> <i class='bx bx-grid-alt'></i> <span
 					class="links_name">Dashboard</span>
 			</a></li>
-			<li><a href="/products/list" class="active"> <i
-					class='bx bx-box'></i> <span class="links_name">Sản phẩm</span>
+			<li><a href="/products/list"> <i class='bx bx-box'></i> <span
+					class="links_name">Sản phẩm</span>
 			</a></li>
-			<li><a href="/category/list"> <i class='bx bx-list-ul'></i>
-					<span class="links_name">Danh mục</span>
+			<li><a href="/category/list" class="active"> <i
+					class='bx bx-list-ul'></i> <span class="links_name">Danh mục</span>
 			</a></li>
 			<li><a href="#"> <i class='bx bx-pie-chart-alt-2'></i> <span
 					class="links_name">Thống kê</span>
@@ -49,8 +49,8 @@
 	<section class="home-section">
 		<nav>
 			<div class="sidebar-button">
-				<i class='bx bx-menu sidebarBtn'></i> <span class="dashboard">Sản
-					phẩm</span>
+				<i class='bx bx-menu sidebarBtn'></i> <span class="dashboard">Danh
+					mục</span>
 			</div>
 
 			<div class="profile-details">
@@ -60,8 +60,8 @@
 		</nav>
 		<h1
 			style="font-size: 20px; margin: 105px auto 20px; width: 300px; font-weight: 900;">DANH
-			SÁCH SẢN PHẨM</h1>
-		<sf:form modelAttribute="searchForm" acion="list" method="get">
+			SÁCH DANH MỤC</h1>
+		<sf:form modelAttribute="searchForm" acion="test" method="get">
 			<div class="search-box"
 				style="width: 198px; float: right; margin: 0px 15px">
 				<sf:input path="name" placeholder="Tìm kiếm..."
@@ -75,7 +75,7 @@
 		<div class="button-box"
 			style="width: 250px; float: left; margin: 0px -24px">
 			<span class="action_btn" style="margin-left: -82px;"><a
-				href="/products/insert">Thêm</a> </span>
+				href="/category/insert">Thêm</a> </span>
 		</div>
 		<div class="table_responsive">
 			<table>
@@ -97,7 +97,7 @@
 							</button></th>
 						<th><button sortBy="name" class="xep"
 								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
-								Tên sản phẩm
+								Tên danh mục
 								<c:if test="${searchForm.sortBy == 'name' }">
 									<c:choose>
 										<c:when test="${searchForm.index}">
@@ -109,67 +109,18 @@
 									</c:choose>
 								</c:if>
 							</button></th>
-						<th><button sortBy="price" class="xep"
-								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
-								Giá bán
-								<c:if test="${searchForm.sortBy == 'price' }">
-									<c:choose>
-										<c:when test="${searchForm.index}">
-									&#8593
-								</c:when>
-										<c:otherwise>
-									&#8595
-								</c:otherwise>
-									</c:choose>
-								</c:if>
-							</button></th>
-						<th><button sortBy="created" class="xep"
-								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
-								Ngày tạo
-								<c:if test="${searchForm.sortBy == 'created' }">
-									<c:choose>
-										<c:when test="${searchForm.index}">
-									&#8593
-								</c:when>
-										<c:otherwise>
-									&#8595
-								</c:otherwise>
-									</c:choose>
-								</c:if>
-							</button></th>
-						<th><button sortBy="category.name" class="xep"
-								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
-								Danh mục
-								<c:if test="${searchForm.sortBy == 'category.name' }">
-									<c:choose>
-										<c:when test="${searchForm.index}">
-									&#8593
-								</c:when>
-										<c:otherwise>
-									&#8595
-								</c:otherwise>
-									</c:choose>
-								</c:if>
-							</button></th>
-						<th>Mô tả</th>
 						<th>Thao tác</th>
 					</tr>
 				</thead>
 
 				<tbody>
-					<c:forEach var="product" items="${products}">
+					<c:forEach var="category" items="${category}">
 						<tr>
-							<td style="text-align: center;">${product.id}</td>
-							<td style="text-align: center;">${product.name}</td>
-							<td style="text-align: center;"><fmt:formatNumber
-									type="number" maxFractionDigits="1" value="${product.price}" /></td>
-							<td style="text-align: center;"><fmt:formatDate
-									pattern="dd/MM/yyyy" value="${product.created}" /></td>
-							<td style="text-align: center;">${product.category.name}</td>
-							<td style="text-align: center;">${product.description}</td>
+							<td style="text-align: center;">${category.id}</td>
+							<td style="text-align: center;">${category.name}</td>
 							<td><span class="action_btn"> <a
-									href="/products/edit?id=${product.id}">Sửa</a>
-									<p onclick="confirmDelete(${product.id})">Xóa</p>
+									href="/category/edit?id=${category.id}">Sửa</a>
+									<p onclick="confirmDelete(${category.id})">Xóa</p>
 							</span></td>
 						</tr>
 					</c:forEach>
@@ -194,7 +145,7 @@
 	    if (ok == true) {
 
 	        let aTag = document.createElement("a");
-	        aTag.href = "/products/delete?id=" + id;
+	        aTag.href = "/category/delete?id=" + id;
 	        document.body.append(aTag);
 	        aTag.click();
 	        

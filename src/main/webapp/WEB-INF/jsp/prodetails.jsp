@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,13 +54,13 @@
 						<option>L</option>
 						<option>XL</option>
 					</select> <input type="number" value="1" /> <a class="btn-content"
-						href="/them-vao-gio/${proDetails.getId()}">Mua ngay</a>
+						href="/them-vao-gio/${proDetails.getId()}"><s:message
+							code="lo.index.buy" /></a>
 					<h3>
 						Chi tiết sản phẩm <i class="fa fa-indent"></i>
 					</h3>
 					<br />
-					<p>Sản phẩm mới đầy sự mới mẻ và sáng tạo, chất liệu tốt giúp
-						bạn thoải mái nhất</p>
+					<p>${proDetails.description }</p>
 				</div>
 			</div>
 			<div class="fb-comments"

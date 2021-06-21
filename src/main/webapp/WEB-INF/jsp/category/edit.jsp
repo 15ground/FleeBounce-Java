@@ -11,7 +11,7 @@
 <body>
 	<c:import url="/WEB-INF/jsp/newheader.jsp"></c:import>
 	<div class="title" style="width: 250px; margin: 90px auto 0px;">
-		<h1>Thêm danh mục</h1>
+		<h1>Sửa danh mục</h1>
 	</div>
 	<form:form class="form-add" action="#" method="post"
 		modelAttribute="category" style="min-height: 341px;">
@@ -24,7 +24,7 @@
     font-style: italic;"></form:errors>
 		<br />
 		<input class="btn-add" style="width: 200px; margin: 130px auto 0;"
-			type="submit" value="Thêm" />
+			type="submit" value="Sửa" />
 	</form:form>
 	<c:import url="/WEB-INF/jsp/footer.jsp"></c:import>
 </body>

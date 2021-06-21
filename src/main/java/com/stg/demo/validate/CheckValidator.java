@@ -14,8 +14,9 @@ public class CheckValidator implements ConstraintValidator<CheckID, Category> {
 
 	@Override
 	public boolean isValid(Category category, ConstraintValidatorContext context) {
-		if (categoriesResponsitory == null) return true;
-		if (categoriesResponsitory.findById(category.getCategoryID()).isEmpty()) {
+		if (categoriesResponsitory == null)
+			return true;
+		if (categoriesResponsitory.findById(category.getId()).isEmpty()) {
 			return false;
 		}
 		return true;

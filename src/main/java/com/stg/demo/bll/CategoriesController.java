@@ -6,6 +6,10 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,11 +22,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.stg.demo.model.Category;
 import com.stg.demo.model.Products;
+import com.stg.demo.model.SearchForm;
 import com.stg.demo.reponsitory.CategoriesReponsitory;
 
 @Controller
 @RequestMapping("category")
 public class CategoriesController {
+
+	@Autowired
+	CategoriesReponsitory categoryResponsitory;
 
 	@GetMapping(path = "insert")
 	public String insert(Model model) {
@@ -31,8 +39,22 @@ public class CategoriesController {
 		return "category/insert";
 	}
 
-	@Autowired
-	CategoriesReponsitory categoryResponsitory;
+	// Cài đặt tối đa 5 sản phẩm trên 1 trang Dashboard
+	private static final int MAX_ITEMS = 5;
+
+	// Danh sách sản phẩm trong Dashboard
+	@GetMapping("list")
+	public String list(@ModelAttribute(name = "searchForm") SearchForm sf, Model model) {
+
+		Pageable pagin = PageRequest.of(sf.getPage(), MAX_ITEMS, sf.isIndex() ? Direction.ASC : Direction.DESC,
+				sf.getSortBy());
+		// lấy sản phẩm
+		Page<Category> categoryPage = categoryResponsitory.findByNameContainingIgnoreCase(sf.getName(), pagin);
+		model.addAttribute("category", categoryPage.getContent());
+		model.addAttribute("maxPage", categoryPage.getTotalPages());
+
+		return "category/listitems";
+	}
 
 	@PostMapping(path = "insert")
 	public String insertComplete(@Valid @ModelAttribute("category") Category category, BindingResult result,
@@ -44,29 +66,22 @@ public class CategoriesController {
 		return "redirect:list";
 	}
 
-	@GetMapping("list")
-	public String index(Model model) {
-		List<Category> categories = categoryResponsitory.findAll();
-		model.addAttribute("categories", categories);
-		return "category/list";
-	}
-
 	@GetMapping("edit")
 	public String index(@RequestParam(name = "id") int cId, Model model) {
 		Optional<Category> categoryOption = categoryResponsitory.findById(cId);
 		if (categoryOption.isEmpty())
 			return "redirect:list";
 		model.addAttribute("category", categoryOption.get());
-		return "category/insert";
+		return "category/edit";
 	}
 
 	@PostMapping("edit")
 	public String index(@Valid @ModelAttribute("category") Category category, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "category/insert";
+			return "category/edit";
 		}
 
-		Optional<Category> categoryOption = categoryResponsitory.findById(category.getCategoryID());
+		Optional<Category> categoryOption = categoryResponsitory.findById(category.getId());
 		if (categoryOption.isEmpty())
 			return "redirect:list";
 
@@ -85,10 +100,5 @@ public class CategoriesController {
 		categoryResponsitory.delete(categoryOption.get());
 		return "redirect:list";
 	}
-	@GetMapping("count")
-	@ResponseBody
-	public String countProductLikeCategoryName(@RequestParam(name = "name") String name) {
-		int c = categoryResponsitory.countByCategoryContainNameJPA(name);
-		return "" + c;
-	}
+
 }

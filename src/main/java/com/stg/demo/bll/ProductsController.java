@@ -38,7 +38,7 @@ public class ProductsController {
 		return categories;
 	}
 
-	// cài đặt tối đa 8 sản phẩm trên 1 trang
+	// Cài đặt tối đa 8 sản phẩm trên 1 trang Home
 	private static final int HOME_ITEMS = 8;
 
 	@GetMapping("")
@@ -63,6 +63,24 @@ public class ProductsController {
 		return "products/listproducts";
 	}
 
+	// Cài đặt tối đa 5 sản phẩm trên 1 trang Dashboard
+	private static final int MAX_ITEMS = 5;
+
+	// Danh sách sản phẩm trong Dashboard
+	@GetMapping("list")
+	public String list(@ModelAttribute(name = "searchForm") SearchForm sf, Model model) {
+
+		Pageable pagin = PageRequest.of(sf.getPage(), MAX_ITEMS, sf.isIndex() ? Direction.ASC : Direction.DESC,
+				sf.getSortBy());
+		// lấy sản phẩm
+		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(sf.getName(), pagin);
+		model.addAttribute("products", productPage.getContent());
+		model.addAttribute("maxPage", productPage.getTotalPages());
+
+		return "products/listitems";
+	}
+
+	// Thêm mới một product
 	@GetMapping(path = "insert")
 	public String insert(Model model) {
 		Products products = new Products();
@@ -83,6 +101,7 @@ public class ProductsController {
 		return "redirect:list";
 	}
 
+	// Sửa một product
 	@GetMapping("edit")
 	public String index(@RequestParam(name = "id") int cId, Model model) {
 		Optional<Products> productsOption = productsResponsitory.findById(cId);
@@ -114,6 +133,7 @@ public class ProductsController {
 		return "redirect:list";
 	}
 
+	// Xóa một product
 	@GetMapping("delete")
 	public String delete(@RequestParam(name = "id") int cId) {
 		Optional<Products> productsOption = productsResponsitory.findById(cId);
@@ -132,9 +152,6 @@ public class ProductsController {
 		return "prodetails";
 	}
 
-	// cài đặt tối đa 5 sản phẩm trên 1 trang
-	private static final int MAX_ITEMS = 5;
-
 	/*
 	 * CÁCH CŨ
 	 * 
@@ -150,17 +167,4 @@ public class ProductsController {
 	 * productPage.getTotalPages()); model.addAttribute("search", search); return
 	 * "products/listitems"; }
 	 */
-
-	@GetMapping("list")
-	public String list(@ModelAttribute(name = "searchForm") SearchForm sf, Model model) {
-
-		Pageable pagin = PageRequest.of(sf.getPage(), MAX_ITEMS, sf.isIndex() ? Direction.ASC : Direction.DESC,
-				sf.getSortBy());
-		// lấy sản phẩm
-		Page<Products> productPage = productsResponsitory.findByNameContainingIgnoreCase(sf.getName(), pagin);
-		model.addAttribute("products", productPage.getContent());
-		model.addAttribute("maxPage", productPage.getTotalPages());
-
-		return "products/listitems";
-	}
 }

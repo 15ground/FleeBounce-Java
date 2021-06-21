@@ -17,7 +17,7 @@
 	<div class="sidebar">
 		<div class="logo-details" style="text-decoration: none;">
 			<a href="/products"> <i class='bx bxl-c-plus-plus'></i>
-			</a><span class="logo_name">De 5</span>
+			</a><span class="logo_name">Flee Bounce</span>
 		</div>
 		<ul class="nav-links">
 			<li><a href="/dashboard" class="active"> <i

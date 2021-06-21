@@ -19,7 +19,7 @@ public class Category {
 	@GeneratedValue
 	@NotNull
 	@Column(name = "id")
-	private int categoryID;
+	private int id;
 
 	@NotNull
 	@NotBlank(message = "Tên danh mục không được để trống")
@@ -34,18 +34,18 @@ public class Category {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Category(int categoryID, String name) {
+	public Category(int id, String name) {
 		super();
-		this.categoryID = categoryID;
+		this.id = id;
 		this.name = name;
 	}
 
-	public int getCategoryID() {
-		return categoryID;
+	public int getId() {
+		return id;
 	}
 
-	public void setCategoryID(int categoryID) {
-		this.categoryID = categoryID;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {

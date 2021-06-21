@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,15 +36,19 @@
 		</div>
 		<!-- Sản phẩm -->
 		<div class="small-container">
-			<h2 class="pro-title" style="margin: 0 auto 20px;">Sản phẩm mới</h2>
+			<h2 class="pro-title" style="margin: 0 auto 20px;">
+				<s:message code="lo.index.protitle" />
+			</h2>
 			<div class="box-container"
 				style="min-height: 5vh; width: 180px; margin: 10px;">
-				<h4 style="white-space: nowrap;">Lọc theo:</h4>
+				<h4 style="white-space: nowrap;">
+					<s:message code="lo.index.sort" />
+				</h4>
 				<select id="select-category" onchange="onSelectCategory(event)"
 					style="margin-left: 10px; margin-top: 3px; display: block; padding: 5px; border: 1px solid #ff1464; font-weight: 600; font-size: 16px; border-radius: 7px; cursor: pointer;">
-					<option value=0>Tất cả</option>
+					<option value=0><s:message code="lo.index.all" /></option>
 					<c:forEach items="${categories}" var="category">
-						<option value="${category.categoryID}">${category.name}</option>
+						<option value="${category.id}">${category.name}</option>
 					</c:forEach>
 
 				</select>
@@ -71,8 +76,8 @@
 						</p>
 						<p
 							style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">*${pro.description }</p>
-						<a class="btn-content" href="/them-vao-gio/${pro.getId()}">Mua
-							ngay</a>
+						<a class="btn-content" href="/them-vao-gio/${pro.getId()}"><s:message
+								code="lo.index.buy" /></a>
 					</div>
 				</c:forEach>
 			</div>
@@ -98,7 +103,9 @@
 						<small>The Mi Band 4 features a 39.9% larger than Mi Band
 							3 AMOLED color full-touch display with adjustable brightness, so
 							everything is clear as can be.</small><br />
-						<button class="btn-content">Mua ngay</button>
+						<button class="btn-content">
+							<s:message code="lo.index.buy" />
+						</button>
 					</div>
 				</div>
 			</div>
