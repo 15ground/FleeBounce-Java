@@ -23,6 +23,10 @@ import com.stg.demo.service.MailService;
 
 @Controller
 public class HomeController {
+	@GetMapping("")
+	public String home() {
+		return "redirect:/products";
+	}
 
 	@GetMapping("dashboard")
 	public String dashboard() {
