@@ -278,6 +278,12 @@ footer h3 {
 	text-align: center;
 }
 
+.footer-col-3 a {
+	color: gray;
+	font-size: 14px;
+	font-weight: normal;
+}
+
 ul {
 	list-style: none;
 }

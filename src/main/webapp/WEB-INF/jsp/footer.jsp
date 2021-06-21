@@ -32,13 +32,11 @@
 					<li>Twitter</li>
 					<li><a
 						href="${requestScope['javax.servlet.forward.request_uri']}?lang=en"
-						style="color: gray; font-size: 14px; font-weight: normal;"> <s:message
-								code="lo.index.en" />
+						class="active"> <s:message code="lo.index.en" />
 					</a></li>
 					<li><a
-						href="${requestScope['javax.servlet.forward.request_uri']}?lang=vi"
-						style="color: gray; font-size: 14px; font-weight: normal;"> <s:message
-								code="lo.index.vi" />
+						href="${requestScope['javax.servlet.forward.request_uri']}?lang=vi">
+							<s:message code="lo.index.vi" />
 					</a></li>
 				</ul>
 			</div>
