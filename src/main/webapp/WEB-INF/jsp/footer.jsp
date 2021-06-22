@@ -32,7 +32,7 @@
 					<li>Twitter</li>
 					<li><a
 						href="${requestScope['javax.servlet.forward.request_uri']}?lang=en"
-						class="active"> <s:message code="lo.index.en" />
+						class="active-lang"> <s:message code="lo.index.en" />
 					</a></li>
 					<li><a
 						href="${requestScope['javax.servlet.forward.request_uri']}?lang=vi">
@@ -42,6 +42,6 @@
 			</div>
 		</div>
 		<hr>
-		<p class="copyright">Copyright 2020 - 15lavie</p>
+		<p class="copyright">Copyright 2021 - 15ground</p>
 	</div>
 </footer>

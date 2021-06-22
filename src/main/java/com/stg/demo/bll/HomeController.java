@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stg.demo.bll.HomeController;
+import com.stg.demo.model.Cart;
 import com.stg.demo.model.Customer;
 
 import com.stg.demo.reponsitory.CustomerRepository;
@@ -69,6 +70,8 @@ public class HomeController {
 	MailService mailService;
 	@Autowired
 	CustomerRepository customerResponsitory;
+	@Autowired
+	private Cart cart;
 
 	@RequestMapping("check-out")
 	public String hoanthanhgio(@RequestParam("email") String email,
@@ -78,6 +81,7 @@ public class HomeController {
 		}
 		customerResponsitory.save(customer);
 		mailService.pushMail(email);
+		cart.setChiTietGioHang(null);
 		return "redirect:/products";
 	}
 }
