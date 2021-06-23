@@ -1,8 +1,13 @@
 package com.stg.demo.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -21,11 +26,16 @@ public class Customer {
 	@Size(max = 10, message = "Số điện thoại không được quá 10 ký tự!")
 	private String phoneNumber;
 	@NotNull
-	@NotBlank(message = "Địa chỉ không được để trống!")
+	@NotBlank(message = "Địa chỉ nhận hàng không được để trống!")
 	private String address;
 	@NotNull(message = "Email không được để trống!")
 	@Pattern(regexp = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$", message = "Sai định dạng email!")
 	private String email;
+	@NotNull
+	@Size(min = 6, message = "Mật khẩu phải trên 5 ký tự!")
+	private String password;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
+	private List<Order> order;
 
 	public Customer() {
 		super();
@@ -79,5 +89,21 @@ public class Customer {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public List<Order> getOrder() {
+		return order;
+	}
+
+	public void setOrder(List<Order> order) {
+		this.order = order;
 	}
 }

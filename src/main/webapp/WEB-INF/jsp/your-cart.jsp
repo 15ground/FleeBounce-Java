@@ -12,7 +12,7 @@
 	<div id="table-content">
 		<c:import url="newheader.jsp"></c:import>
 		<h2 class="pro-title" style="margin-top: 90px;">Giỏ hàng của bạn</h2>
-		<section style="margin-bottom: 350px;">
+		<section style="margin-bottom: 370px;">
 			<div class="small-container">
 				<div class="content cart-page" id="cartPage">
 					<table>
@@ -36,11 +36,11 @@
 									</div>
 								</td>
 								<td><button onclick="truSP(event)" id="${cart.key.id }"
-										style="margin-left: -10px; margin-right: 4px; font-size: 21px; border: 1px solid #ff1464; width: 30px; border-radius: 15px"
-										<c:if test="${cart.value==1 }">disabled="disabled"</c:if>>-</button>
+										class='${cart.value<=1 ? "btn-cart-minus disable-minus" : "btn-cart-minus"}'
+										<c:if test="${cart.value<=1 }">disabled="disabled"</c:if>>-</button>
 									${cart.value }
 									<button onclick="congSP(event)" id="${cart.key.id }"
-										style="margin-left: 4px; font-size: 19px; border: 1px solid #ff1464; width: 28px; border-radius: 19px;"
+										class='${cart.value>=10 ? "btn-cart-add disable-add" : "btn-cart-add"}'
 										<c:if test="${cart.value>=10 }">disabled="disabled"</c:if>>+</button></td>
 								<td><fmt:formatNumber type="number" maxFractionDigits="1"
 										value="${cart.value*cart.key.price}" />đ</td>
@@ -70,6 +70,8 @@
 						</tr>
 					</table>
 					<a class="btn-add" href="check-out">THANH TOÁN</a>
+					<h4 style="white-space: nowrap; margin: 1px auto;">hoặc</h4>
+					<a class="btn-add" href="/products">TIẾP TỤC MUA HÀNG</a>
 				</div>
 			</div>
 		</section>

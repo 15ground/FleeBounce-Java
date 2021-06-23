@@ -8,7 +8,7 @@ import com.stg.demo.model.Products;
 import com.stg.demo.reponsitory.ProductsResponsitory;
 
 @Service
-public class CategoryServiceImpl implements CartService {
+public class CartServiceImpl implements CartService {
 	@Autowired
 	private Cart cart;
 

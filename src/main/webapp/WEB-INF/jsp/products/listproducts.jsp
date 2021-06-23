@@ -40,7 +40,7 @@
 				<s:message code="lo.index.protitle" />
 			</h2>
 			<div class="box-container"
-				style="min-height: 5vh; width: 180px; margin: 10px;">
+				style="min-height: 5vh; width: 180px; margin: 10px; margin-left: 140px;">
 				<h4 style="white-space: nowrap;">
 					<s:message code="lo.index.sort" />
 				</h4>
@@ -50,8 +50,16 @@
 					<c:forEach items="${categories}" var="category">
 						<option value="${category.id}">${category.name}</option>
 					</c:forEach>
-
 				</select>
+				<h4 style="white-space: nowrap; margin-left: 20px;">hoặc</h4>
+				<form action="/products/search">
+					<div class="search-box"
+						style="width: 198px; float: right; margin: 0px 15px">
+						<input name="key" value="${key }" placeholder="Tìm kiếm..."
+							style="height: 38px; width: 155px; outline: none; border: 1px solid #ff1464; border-radius: 6px; font-size: 14px; padding: 0 15px;" />
+					</div>
+				</form>
+
 			</div>
 			<div class="content">
 				<c:forEach items="${products}" var="pro">

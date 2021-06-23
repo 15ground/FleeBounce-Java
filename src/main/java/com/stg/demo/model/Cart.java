@@ -9,6 +9,7 @@ import org.springframework.web.context.annotation.SessionScope;
 @Component
 @SessionScope
 public class Cart {
+	
 	private Map<Products, Integer> cartDetails = new HashMap<Products, Integer>();
 
 	public Map<Products, Integer> getCartDetails() {
@@ -18,4 +19,5 @@ public class Cart {
 	public void setChiTietGioHang(Map<Products, Integer> cartDetails) {
 		this.cartDetails = cartDetails;
 	}
+	
 }

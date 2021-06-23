@@ -18,7 +18,7 @@ public class CartInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// nếu giỏ hàng trống thì chuyển về trang chủ
-		if (cart.getCartDetails().size() == 0) {
+		if (cart.getCartDetails().size() == 0 || cart.getCartDetails() == null) {
 			response.sendRedirect("/products");
 			return false;
 		}

@@ -1,13 +1,17 @@
 package com.stg.demo.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -37,9 +41,12 @@ public class Products {
 	String description;
 	@CheckID
 	@ManyToOne
-	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "category_products"))
+	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "id"))
 	Category category;
+	@NotNull
 	String pictures;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products", cascade = CascadeType.ALL)
+	private List<OrderItems> invoice_items;
 
 	public Products() {
 		super();

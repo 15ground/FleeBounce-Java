@@ -41,7 +41,7 @@ public class ProductsController {
 	// Cài đặt tối đa 8 sản phẩm trên 1 trang Home
 	private static final int HOME_ITEMS = 8;
 
-	@GetMapping("")
+	@GetMapping(value = { "", "search" })
 	public String testlist(@RequestParam(value = "key", defaultValue = "") String key,
 			@RequestParam(value = "categoryID", defaultValue = "0") int categoryID,
 			@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
@@ -59,6 +59,7 @@ public class ProductsController {
 
 		// search
 		model.addAttribute("categoryID", categoryID);
+		model.addAttribute("key", key);
 
 		return "products/listproducts";
 	}

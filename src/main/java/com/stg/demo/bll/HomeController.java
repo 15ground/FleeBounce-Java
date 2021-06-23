@@ -1,5 +1,10 @@
 package com.stg.demo.bll;
 
+import java.util.ArrayList;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,20 +14,42 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stg.demo.bll.HomeController;
 import com.stg.demo.model.Cart;
 import com.stg.demo.model.Customer;
-
+import com.stg.demo.model.Login;
+import com.stg.demo.model.Order;
+import com.stg.demo.model.OrderItems;
+import com.stg.demo.model.Products;
 import com.stg.demo.reponsitory.CustomerRepository;
-
+import com.stg.demo.reponsitory.OrderItemsRepository;
+import com.stg.demo.reponsitory.OrderRepository;
 import com.stg.demo.service.CartService;
+import com.stg.demo.service.CustomerService;
 import com.stg.demo.service.MailService;
 
 @Controller
 public class HomeController {
+
+	@Autowired
+	MailService mailService;
+
+	@Autowired
+	OrderRepository orderRepository;
+
+	@Autowired
+	OrderItemsRepository orderItemsRepository;
+
+	@Autowired
+	CartService cartService;
+
+	@Autowired
+	CustomerService customerService;
+
 	@GetMapping("/")
 	public String home() {
 		return "redirect:/products";
@@ -31,14 +58,6 @@ public class HomeController {
 	@GetMapping("dashboard")
 	public String dashboard() {
 		return "dashboard";
-	}
-
-	@Autowired
-	CartService cartService;
-
-	@GetMapping("your-cart")
-	public void gioHang(Model model) {
-		model.addAttribute("cart", cartService.getGioHang());
 	}
 
 	@GetMapping("them-vao-gio/{idSanPham}")
@@ -59,29 +78,133 @@ public class HomeController {
 		return "redirect:/your-cart";
 	}
 
-	@GetMapping("check-out")
-	public String hoanthanhgio(Model model) {
-		Customer customer = new Customer();
-		model.addAttribute("customer", customer);
-		return "checkout";
+	// dang nhap
+	@GetMapping("login")
+	public String login(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus, Model model) {
+
+		model.addAttribute("cartStatus", cartStatus);
+		model.addAttribute("login", new Login());
+		return "login";
 	}
 
-	@Autowired
-	MailService mailService;
-	@Autowired
-	CustomerRepository customerResponsitory;
-	@Autowired
-	private Cart cart;
+	@PostMapping("login")
+	public String loginPost(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus,
+			@Valid @ModelAttribute("login") Login login, Model model) {
 
-	@RequestMapping("check-out")
-	public String hoanthanhgio(@RequestParam("email") String email,
+		if (customerService.Login(login.getPhoneNumber(), login.getPassWord())) {
+			model.addAttribute("cart", cartService.getGioHang());
+			model.addAttribute("order", new Order());
+			model.addAttribute("name", customerService.getCustomer().getName());
+			model.addAttribute("phoneNumber", customerService.getCustomer().getPhoneNumber());
+			model.addAttribute("address", customerService.getCustomer().getAddress());
+			return cartStatus == 1 ? "checkout" : "redirect:/products";
+		} else {
+			model.addAttribute("cartStatus", cartStatus);
+			model.addAttribute("login", login);
+			return "login";
+		}
+
+	}
+
+	// dang kí
+	@PostMapping("register")
+	public String register(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus,
 			@Valid @ModelAttribute("customer") Customer customer, BindingResult result, Model model) {
+
+		// valid data
+		if (result.hasErrors()) {
+			return "register";
+		}
+
+		// check dang ki
+		if (customerService.Register(customer)) {
+			model.addAttribute("cart", cartService.getGioHang());
+			model.addAttribute("order", new Order());
+			model.addAttribute("name", customerService.getCustomer().getName());
+			model.addAttribute("phoneNumber", customerService.getCustomer().getPhoneNumber());
+			model.addAttribute("address", customerService.getCustomer().getAddress());
+
+			return cartStatus == 1 ? "checkout" : "redirect:/products";
+
+		} else {
+			model.addAttribute("cartStatus", cartStatus);
+			return "register";
+		}
+
+	}
+
+	@GetMapping("register")
+	public String registerGet(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus, Model model) {
+
+		model.addAttribute("cartStatus", cartStatus);
+		model.addAttribute("customer", new Customer());
+
+		return "register";
+	}
+
+	/// XU LY GIO HANG
+
+	// trang gio hang
+	@GetMapping("your-cart")
+	public void gioHang(Model model) {
+		model.addAttribute("cart", cartService.getGioHang());
+	}
+
+	// kiem tra dang nhap truoc khi tiep tuc thanh toan
+	@GetMapping("check-out")
+	public String checkout(Model model) {
+
+		if (customerService.isCustomerLogin()) {
+			model.addAttribute("cart", cartService.getGioHang());
+			model.addAttribute("order", new Order());
+			model.addAttribute("name", customerService.getCustomer().getName());
+			model.addAttribute("phoneNumber", customerService.getCustomer().getPhoneNumber());
+			model.addAttribute("address", customerService.getCustomer().getAddress());
+			model.addAttribute("cartStatus", 0);
+			return "checkout";
+		} else {
+			model.addAttribute("cartStatus", 1);
+			model.addAttribute("login", new Login());
+			return "login";
+		}
+	}
+
+	// trang xac nhan don hang
+	@RequestMapping("check-out-confirm")
+	public String hoanthanhgio(@Valid @ModelAttribute("order") Order order, BindingResult result, Model model) {
+
 		if (result.hasErrors()) {
 			return "checkout";
 		}
-		customerResponsitory.save(customer);
-		mailService.pushMail(email);
-		cart.setChiTietGioHang(null);
+
+		// luu order
+		order.setCustomer(customerService.getCustomer());
+		Order orderSave = orderRepository.save(order);
+
+		// luu orderItems
+		Map<Products, Integer> listItems = cartService.getGioHang().getCartDetails();
+
+		for (Products product : listItems.keySet()) {
+
+			OrderItems orderItem = new OrderItems();
+			int amount = listItems.get(product);
+
+			orderItem.setProducts(product);
+			orderItem.setOrder(orderSave);
+			orderItem.setAmount(amount);
+			orderItem.setName(product.getName());
+			orderItem.setPrice(product.getPrice());
+			orderItem.setTotal((product.getPrice()) * amount);
+
+			orderItemsRepository.save(orderItem);
+
+		}
+		// lam moi lai gio hang
+		cartService.getGioHang().getCartDetails().clear();
+
+		// gui mail de duoi cung
+		mailService.sendMailWithCustomerID(customerService.getCustomer().getId());
+
 		return "redirect:/products";
 	}
 }
