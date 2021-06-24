@@ -5,62 +5,10 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 <header>
-	<div class="container-nav">
-		<div class="nav-bar">
-			<c:choose>
-				<c:when test="${not empty currentUser}">
-					<c:if test="${currentUser.getRole() eq 'admin' }">
-						<div class="nav-bar">
-							<div class="logo">
-								<a href="/products"> <img src="/images/logo.png" />
-								</a>
-							</div>
-							<nav>
-								<ul>
-									<li><a href="/dashboard">Dashboard</a></li>
-									<li><a href="#">Sản phẩm</a></li>
-									<li><a href="#">Giới thiệu</a></li>
-									<li><a href="#">Liên hệ</a></li>
-									<li><a href="#">${username}</a></li>
-								</ul>
-							</nav>
-						</div>
-						<a href="/your-cart" class="icon"> <img src="/images/cart.png" />
-						</a>
-						<form action="${pageContext.request.contextPath}/AuthController"
-							method="post">
-							<button class="log-out" name="action" value="logout">
-								<i class="fa fa-sign-out" aria-hidden="true"></i>
-							</button>
-						</form>
-					</c:if>
-					<c:if test="${currentUser.getRole() eq 'user' }">
-						<div class="nav-bar">
-							<div class="logo">
-								<a href="/products"> <img src="/images/logo.png" />
-								</a>
-							</div>
-							<nav>
-								<ul>
-									<li><a href="/dashboard">Trang chủ</a></li>
-									<li><a href="#">Sản phẩm</a></li>
-									<li><a href="#">Giới thiệu</a></li>
-									<li><a href="#">Liên hệ</a></li>
-									<li><a href="#">${username}</a></li>
-								</ul>
-							</nav>
-						</div>
-						<a href="/your-cart" class="icon"> <img src="/images/cart.png" />
-						</a>
-						<form action="${pageContext.request.contextPath}/AuthController"
-							method="post">
-							<button class="log-out" name="action" value="logout">
-								<i class="fa fa-sign-out" aria-hidden="true"></i>
-							</button>
-						</form>
-					</c:if>
-				</c:when>
-				<c:otherwise>
+	<c:choose>
+		<c:when test="${not empty currentUser}">
+			<div class="container-nav">
+				<div class="nav-bar">
 					<div class="container-nav">
 						<div class="nav-bar">
 							<div class="logo">
@@ -74,7 +22,40 @@
 									<li><a href="#"><s:message code="lo.index.products" /></a></li>
 									<li><a href="#"><s:message code="lo.index.about" /></a></li>
 									<li><a href="#"><s:message code="lo.index.contact" /></a></li>
-									<li><a href="views/sigin.jsp"><s:message
+									<li><a href="#">${username }</a></li>
+								</ul>
+							</nav>
+							<a href="/your-cart" class="icon"> <img
+								src="/images/cart.png" />
+							</a>
+							<form action="/logout" method="post">
+								<button class="log-out" name="action" value="logout">
+									<i class="fa fa-sign-out" aria-hidden="true"></i>
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</c:when>
+		<c:otherwise>
+
+			<div class="container-nav">
+				<div class="nav-bar">
+					<div class="container-nav">
+						<div class="nav-bar">
+							<div class="logo">
+								<a href="/products"> <img src="/images/logo.png" />
+								</a>
+							</div>
+							<nav>
+								<ul>
+									<li><a href="/dashboard"><s:message
+												code="lo.index.home" /></a></li>
+									<li><a href="#"><s:message code="lo.index.products" /></a></li>
+									<li><a href="#"><s:message code="lo.index.about" /></a></li>
+									<li><a href="#"><s:message code="lo.index.contact" /></a></li>
+									<li><a href="/login?cartStatus=${cartStatus}"><s:message
 												code="lo.index.login" /></a></li>
 								</ul>
 							</nav>
@@ -83,10 +64,10 @@
 							</a>
 						</div>
 					</div>
-				</c:otherwise>
-			</c:choose>
-		</div>
-	</div>
+				</div>
+			</div>
+		</c:otherwise>
+	</c:choose>
 	<div class="content">
 		<div class="text-content">
 			<h1>

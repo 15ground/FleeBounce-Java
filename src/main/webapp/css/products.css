@@ -628,5 +628,10 @@ th:last-child {
 	background-color: #ff1464;
 	color: #fff;
 	background-color: #ff1464;
-/* 	display: none; */
+	/* 	display: none; */
+}
+
+.active-lang {
+	color: white;
+	font-weight: 700;
 }

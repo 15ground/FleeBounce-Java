@@ -8,7 +8,7 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/css/sigup.css" />
-<title>Insert title here</title>
+<title>Đăng nhập</title>
 </head>
 <body>
 	<div class="login">
@@ -16,20 +16,25 @@
 			modelAttribute="login">
 
 			<h2>ĐĂNG NHẬP</h2>
-			<div class="group">
+			<div class="group" style="margin-bottom: -20px;">
 				<form:input type="text" value="${login.getPhoneNumber() }"
 					path="phoneNumber" name="phoneNumber"
 					placeholder="Số điện thoại..." />
-				<form:errors path="phoneNumber" cssStyle="color:red"></form:errors>
 				<br />
 				<form:input type="text" path="passWord" name="passWord"
 					placeholder="Mật khẩu..." />
-				<form:errors path="passWord" cssStyle="color:red"></form:errors>
+				<p style="color: red; margin-top: 10px;">${message }</p>
 				<br />
 			</div>
-			<input class="btn-add" style="width: 200px; margin: 0 auto;"
+			<input class="btn-add" style="width: 200px; margin: 0 auto 10px;"
 				type="submit" value="Đăng nhập" />
-				<a href="/register?cartStatus=${cartStatus }">Đăng ký</a>
+			<p class="fs" style="margin-bottom: 10px;">
+				Bạn đã quên <a href="#">Tài khoản</a> / <a href="#">Mật khẩu</a> ?
+			</p>
+			<p class="ss">
+				Bạn chưa có tài khoản? <a href="/register?cartStatus=${cartStatus }">Đăng
+					ký</a>
+			</p>
 		</form:form>
 	</div>
 </body>

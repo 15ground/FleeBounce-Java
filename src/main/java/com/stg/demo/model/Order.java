@@ -17,6 +17,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+// table sql, chua data sql , luu data va sql
+// doc cart -> orderItem
 @Entity(name = "orders")
 public class Order {
 
@@ -57,6 +59,23 @@ public class Order {
 		this.created = created;
 		this.customer = customer;
 		this.order_items = order_items;
+	}
+
+	@Transient
+	float total;
+
+	public float getTotal(List<OrderItems> orderItems) {
+		float total = 0;
+		int size = orderItems.size();
+		for (int i = 0; i < size; i++) {
+			OrderItems orderItem = orderItems.get(i);
+			total += (orderItem.getPrice() * orderItem.getAmount());
+		}
+		return total;
+	}
+
+	public void setTotal(float total) {
+		this.total = total;
 	}
 
 	public int getId() {

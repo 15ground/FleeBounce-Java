@@ -64,7 +64,7 @@
 			</table>
 		</div>
 	</div>
-	<form:form class="form-add" action="check-out-confirm" method="post"
+	<form:form class="form-add" action="check-out" method="post"
 		modelAttribute="order" style="width: 1040px;margin-left: 273px;">
 		<form:input path="id" type="hidden" />
 		<br />
@@ -86,7 +86,7 @@
 			cssStyle="color:red;margin-left: 10px;font-style: italic;"></form:errors>
 		<br />
 		<br />
-		<input class="btn-add" style="width: 200px; margin: 0 auto;"
+		<input class="btn-add" style="width: 200px; margin: 30px auto 0;"
 			type="submit" value="Xác nhận" />
 	</form:form>
 

@@ -1,6 +1,7 @@
 package com.stg.demo.model;
 
 public class Login {
+
 	private String phoneNumber;
 	private String passWord;
 
