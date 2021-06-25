@@ -109,11 +109,13 @@ public class HomeController {
 	// dang kí
 	@PostMapping("register")
 	public String register(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus,
-			@Valid @ModelAttribute("customer") Customer customer, BindingResult result, Model model) {
+			@Valid @ModelAttribute("customer") Customer customer, BindingResult result, Model model,
+			HttpServletRequest request) {
 		// valid data
 		if (result.hasErrors()) {
 			return "register";
 		}
+		HttpSession session = request.getSession();
 		// check dang ki
 		if (customerService.Register(customer)) {
 			model.addAttribute("cart", cartService.getGioHang());
@@ -121,6 +123,8 @@ public class HomeController {
 			model.addAttribute("name", customerService.getCustomer().getName());
 			model.addAttribute("phoneNumber", customerService.getCustomer().getPhoneNumber());
 			model.addAttribute("address", customerService.getCustomer().getAddress());
+			session.setAttribute("username", customerService.getCustomer().getName());
+			session.setAttribute("currentUser", customerService.getCustomer());
 			return cartStatus == 1 ? "checkout" : "redirect:/products";
 
 		} else {

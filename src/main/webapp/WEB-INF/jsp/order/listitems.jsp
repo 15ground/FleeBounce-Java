@@ -10,8 +10,12 @@
 <link rel="stylesheet" href="/css/style.css">
 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css'
 	rel='stylesheet'>
-<link rel="stylesheet" href="/css/dashboardst.css">
-<title>Sản phẩm</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="/css/order.css">
+<title>Đơn hàng</title>
 </head>
 <body>
 	<div class="sidebar">
@@ -23,14 +27,15 @@
 			<li><a href="/dashboard"> <i class='bx bx-grid-alt'></i> <span
 					class="links_name">Dashboard</span>
 			</a></li>
-			<li><a href="/products/list" class="active"> <i
-					class='bx bx-box'></i> <span class="links_name">Sản phẩm</span>
+			<li><a href="/products/list"> <i class='bx bx-box'></i> <span
+					class="links_name">Sản phẩm</span>
 			</a></li>
 			<li><a href="/category/list"> <i class='bx bx-list-ul'></i>
 					<span class="links_name">Danh mục</span>
 			</a></li>
-			<li><a href="/order/list"> <i class='bx bx-pie-chart-alt-2'></i>
-					<span class="links_name">Đơn hàng</span>
+			<li><a href="/order/list" class="active"> <i
+					class='bx bx-pie-chart-alt-2'></i> <span class="links_name">Đơn
+						hàng</span>
 			</a></li>
 			<li><a href="#"> <i class='bx bx-message'></i> <span
 					class="links_name">Tin nhắn</span>
@@ -49,8 +54,8 @@
 	<section class="home-section">
 		<nav>
 			<div class="sidebar-button">
-				<i class='bx bx-menu sidebarBtn'></i> <span class="dashboard">Sản
-					phẩm</span>
+				<i class='bx bx-menu sidebarBtn'></i> <span class="dashboard">Hóa
+					đơn</span>
 			</div>
 
 			<div class="profile-details">
@@ -60,8 +65,8 @@
 		</nav>
 		<h1
 			style="font-size: 20px; margin: 105px auto 20px; width: 300px; font-weight: 900;">DANH
-			SÁCH SẢN PHẨM</h1>
-		<sf:form modelAttribute="searchForm" acion="list" method="get">
+			SÁCH HÓA ĐƠN</h1>
+		<sf:form modelAttribute="searchForm" acion="test" method="get">
 			<div class="search-box"
 				style="width: 198px; float: right; margin: 0px 15px">
 				<sf:input path="name" placeholder="Tìm kiếm..."
@@ -72,16 +77,12 @@
 				<input value="Tìm kiếm" id="searchBt" type="hidden" />
 			</div>
 		</sf:form>
-		<div class="button-box"
-			style="width: 250px; float: left; margin: 0px -24px">
-			<span class="action_btn" style="margin-left: -82px;"><a
-				href="/products/insert">Thêm</a> </span>
-		</div>
 		<div class="table_responsive">
 			<table>
 				<thead>
 					<tr>
-						<th><button sortBy="id" class="xep"
+						<th style="text-align: center;"><button sortBy="id"
+								class="xep"
 								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
 								ID
 								<c:if test="${searchForm.sortBy == 'id' }">
@@ -95,10 +96,11 @@
 									</c:choose>
 								</c:if>
 							</button></th>
-						<th><button sortBy="name" class="xep"
+						<th style="text-align: center;"><button
+								sortBy="customer.name" class="xep"
 								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
-								Tên sản phẩm
-								<c:if test="${searchForm.sortBy == 'name' }">
+								Họ và tên
+								<c:if test="${searchForm.sortBy == 'customer.name' }">
 									<c:choose>
 										<c:when test="${searchForm.index}">
 									&#8593
@@ -109,10 +111,11 @@
 									</c:choose>
 								</c:if>
 							</button></th>
-						<th><button sortBy="price" class="xep"
+						<th style="text-align: center;"><button
+								sortBy="customer.phoneNumber" class="xep"
 								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
-								Giá bán
-								<c:if test="${searchForm.sortBy == 'price' }">
+								Số điện thoại
+								<c:if test="${searchForm.sortBy == 'customer.phoneNumber' }">
 									<c:choose>
 										<c:when test="${searchForm.index}">
 									&#8593
@@ -123,10 +126,11 @@
 									</c:choose>
 								</c:if>
 							</button></th>
-						<th><button sortBy="created" class="xep"
+						<th style="text-align: center;"><button
+								sortBy="customer.email" class="xep"
 								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
-								Ngày tạo
-								<c:if test="${searchForm.sortBy == 'created' }">
+								Email
+								<c:if test="${searchForm.sortBy == 'customer.email' }">
 									<c:choose>
 										<c:when test="${searchForm.index}">
 									&#8593
@@ -137,40 +141,74 @@
 									</c:choose>
 								</c:if>
 							</button></th>
-						<th><button sortBy="category.name" class="xep"
-								style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700;">
-								Danh mục
-								<c:if test="${searchForm.sortBy == 'category.name' }">
-									<c:choose>
-										<c:when test="${searchForm.index}">
-									&#8593
-								</c:when>
-										<c:otherwise>
-									&#8595
-								</c:otherwise>
-									</c:choose>
-								</c:if>
-							</button></th>
-						<th>Mô tả</th>
-						<th>Thao tác</th>
+						<th style="text-align: center;">Hiển thị</th>
 					</tr>
 				</thead>
 
 				<tbody>
-					<c:forEach var="product" items="${products}">
+					<c:forEach var="order" items="${order}">
 						<tr>
-							<td style="text-align: center;">${product.id}</td>
-							<td style="text-align: center;">${product.name}</td>
-							<td style="text-align: center;"><fmt:formatNumber
-									type="number" maxFractionDigits="1" value="${product.price}" /></td>
-							<td style="text-align: center;"><fmt:formatDate
-									pattern="dd/MM/yyyy" value="${product.created}" /></td>
-							<td style="text-align: center;">${product.category.name}</td>
-							<td style="text-align: center;">${product.description}</td>
-							<td><span class="action_btn"> <a
-									href="/products/edit?id=${product.id}">Sửa</a>
-									<p onclick="confirmDelete(${product.id})">Xóa</p>
-							</span></td>
+							<td style="text-align: center;">${order.id}</td>
+							<td style="text-align: center;">${order.customer.name}</td>
+							<td style="text-align: center;">${order.customer.phoneNumber}</td>
+							<td style="text-align: center;">${order.customer.email}</td>
+							<td style="text-align: center;">
+								<button type="button" class="action_btn" data-toggle="modal"
+									data-target="#detail${order.id}">Chi tiết</button> <!-- Modal -->
+								<div class="modal fade" id="detail${order.id}" tabindex="-1"
+									role="dialog" aria-labelledby="#detail${order.id}"
+									aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Chi tiết
+													hóa đơn</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<div style="background: #ddd; padding: 20px; margin: 20px">
+													<h3 style="text-align: center;">Thông tin đơn hàng</h3>
+													<p>
+														Mã order: <b>${order.id }</b>
+													</p>
+													<p>
+														Tên người nhận: <b>${order.customer.name}</b>
+													</p>
+													<p>
+														Địa chỉ: <b>${order.customer.address}</b>
+													</p>
+													<p>
+														Số điện thoại: <b>${order.customer.phoneNumber}</b>
+													</p>
+													<p>
+														Tổng tiền : <b><fmt:formatNumber type="number"
+																maxFractionDigits="1" value="${order.total }" /> VND</b>
+													</p>
+												</div>
+
+												<div style="background: #ddd; padding: 20px; margin: 20px">
+													<h3 style="text-align: center;">Sản phẩm bao gồm</h3>
+													<c:forEach var="orderDetail" items="${order.order_items }">
+														<p>
+															- ${orderDetail.products.name} : <b><fmt:formatNumber
+																	type="number" maxFractionDigits="1"
+																	value="${orderDetail.price}" /> VND</b> <i>(x${orderDetail.amount })</i>
+														</p>
+													</c:forEach>
+
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Đóng</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -186,34 +224,34 @@
 			</c:if>
 		</div>
 	</section>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
-	 confirmDelete = (id) =>{
-	    let ok = confirm("Xác nhận xóa?");
-	    if (ok == true) {
-
-	        let aTag = document.createElement("a");
-	        aTag.href = "/products/delete?id=" + id;
-	        document.body.append(aTag);
-	        aTag.click();
-	        
-	    }
-	}
-	 /* Tìm */
-	 $('#searchBt').click(function() {
+		/* Tìm */
+		$('#searchBt').click(function() {
 			$('form #sortByInput').val(xepTheo);
 			$('form #indexInput').val(true);
 			$('form #pageInput').val(0);
 			$('form').submit();
 		});
-	 /* Pagin */
+		/* Pagin */
 		$('.trang').click(function() {
 			var trang = $(this).attr('trang');
 			$('form #pageInput').val(trang);
 			$('form').submit();
 		});
-	 /* Sort */
+		/* Sort */
 		$('.xep').click(function() {
 			var xepTheo = $(this).attr('sortBy');
 			var xepTheoInput = $('form #sortByInput');

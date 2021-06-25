@@ -74,6 +74,16 @@ public class Order {
 		return total;
 	}
 
+	public float getTotal() {
+		float total = 0;
+		int size = this.order_items.size();
+		for (int i = 0; i < size; i++) {
+			OrderItems orderItem = order_items.get(i);
+			total += (orderItem.getPrice() * orderItem.getAmount());
+		}
+		return total;
+	}
+
 	public void setTotal(float total) {
 		this.total = total;
 	}

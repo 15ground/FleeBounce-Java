@@ -1,6 +1,5 @@
 package com.stg.demo.bll;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -18,10 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.stg.demo.model.Category;
-import com.stg.demo.model.Products;
 import com.stg.demo.model.SearchForm;
 import com.stg.demo.reponsitory.CategoriesReponsitory;
 

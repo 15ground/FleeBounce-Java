@@ -21,7 +21,7 @@
 					path="phoneNumber" name="phoneNumber"
 					placeholder="Số điện thoại..." />
 				<br />
-				<form:input type="text" path="passWord" name="passWord"
+				<form:input type="password" path="passWord" name="passWord"
 					placeholder="Mật khẩu..." />
 				<p style="color: red; margin-top: 10px;">${message }</p>
 				<br />

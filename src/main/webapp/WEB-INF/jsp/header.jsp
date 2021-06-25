@@ -18,7 +18,7 @@
 							<nav>
 								<ul>
 									<li><a href="/dashboard"><s:message
-												code="lo.index.home" /></a></li>
+												code="lo.index.dashboard" /></a></li>
 									<li><a href="#"><s:message code="lo.index.products" /></a></li>
 									<li><a href="#"><s:message code="lo.index.about" /></a></li>
 									<li><a href="#"><s:message code="lo.index.contact" /></a></li>
@@ -50,7 +50,7 @@
 							</div>
 							<nav>
 								<ul>
-									<li><a href="/dashboard"><s:message
+									<li><a href="/products"><s:message
 												code="lo.index.home" /></a></li>
 									<li><a href="#"><s:message code="lo.index.products" /></a></li>
 									<li><a href="#"><s:message code="lo.index.about" /></a></li>

@@ -29,8 +29,8 @@
 			<li><a href="/category/list" class="active"> <i
 					class='bx bx-list-ul'></i> <span class="links_name">Danh mục</span>
 			</a></li>
-			<li><a href="#"> <i class='bx bx-pie-chart-alt-2'></i> <span
-					class="links_name">Thống kê</span>
+			<li><a href="/order/list"> <i class='bx bx-pie-chart-alt-2'></i>
+					<span class="links_name">Đơn hàng</span>
 			</a></li>
 			<li><a href="#"> <i class='bx bx-message'></i> <span
 					class="links_name">Tin nhắn</span>

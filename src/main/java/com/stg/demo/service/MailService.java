@@ -59,11 +59,11 @@ public class MailService {
 				+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
 				+ "    <title>Document</title>\n" + "</head>\n" + "<body>\n"
 				+ "    <div style= \"background: #ddd;padding : 20px; margin : 20px\">\n"
-				+ "        <h3>Thông tin đơn hàng</h3>\n" + "<p>\n" + "Tên Người Nhận : <b>"
-				+ order.getCustomer().getName() + "</b>\n" + "  </p>\n" + "<p>\n" + " Số điện thoại: <b>"
-				+ order.getCustomer().getPhoneNumber() + "</b>\n" + "</p>\n" + "<p>\n" + "            Địa chỉ : <b>"
-				+ order.getCustomer().getAddress() + "</b>\n" + "</p>\n" + "        <p>\n" + "Mã order : <b>"
-				+ order.getId() + "</b>\n" + " </p>\n" + " <p>\n" + "Sản phẩm bao gồm : </p>\n";
+				+ "        <h3>Thông tin đơn hàng</h3>\n" + "        <p>\n" + "Mã order : <b>" + order.getId()
+				+ "</b>\n" + " </p>\n" + "<p>\n" + "Tên người nhận : <b>" + order.getCustomer().getName() + "</b>\n"
+				+ "  </p>\n" + "<p>\n" + " Số điện thoại: <b>" + order.getCustomer().getPhoneNumber() + "</b>\n"
+				+ "</p>\n" + "<p>\n" + "            Địa chỉ : <b>" + order.getCustomer().getAddress() + "</b>\n"
+				+ "</p>\n" + " <p>\n" + "Sản phẩm bao gồm : </p>\n";
 
 		for (int i = 0; i < orderItems.size(); i++) {
 			OrderItems orderItem = orderItems.get(i);
