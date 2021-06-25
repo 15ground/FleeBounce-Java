@@ -53,6 +53,16 @@ public class HomeController {
 		return "redirect:/products";
 	}
 
+	@GetMapping("error")
+	public String error() {
+		return "error";
+	}
+
+	@GetMapping("empty")
+	public String empty() {
+		return "empty";
+	}
+
 	@GetMapping("dashboard")
 	public String dashboard() {
 		return "dashboard";
@@ -148,6 +158,8 @@ public class HomeController {
 		if (customerService.Logout(customerService.getCustomer().getId())) {
 			session.removeAttribute("username");
 			session.removeAttribute("currentUser");
+			// lam moi lai gio hang
+			cartService.getGioHang().getCartDetails().clear();
 		}
 		return "redirect:/products";
 	}

@@ -11,11 +11,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import com.stg.demo.interceptor.CartInterceptor;
+import com.stg.demo.interceptor.UserInterceptor;
 
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
 	@Autowired
 	CartInterceptor cartInterceptor;
+	@Autowired
+	UserInterceptor userInterceptor;
 
 	@Bean("localeResolver")
 	public LocaleResolver getLocaleResolver() {
@@ -28,7 +31,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(cartInterceptor).addPathPatterns("/check-out");
+		registry.addInterceptor(cartInterceptor).addPathPatterns("/check-out", "/your-cart");
+		registry.addInterceptor(userInterceptor).addPathPatterns("/products/*", "/category/*", "/order/*",
+				"/dashboard");
 		// set da ngon ngu
 		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
 		lci.setParamName("lang");

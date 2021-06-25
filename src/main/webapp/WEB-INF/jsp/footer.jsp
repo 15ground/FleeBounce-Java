@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <!DOCTYPE html>
 <link rel="stylesheet" href="/css/products.css">
+
 <footer>
 	<div class="container">
 		<div class="content">
