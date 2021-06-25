@@ -13,7 +13,7 @@
 	<artifactId>fbShop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<!-- Bỏ  comment để chạy local -->
-	<packaging>war</packaging>
+	<!-- <packaging>war</packaging> -->
 	<name>fbShop</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
