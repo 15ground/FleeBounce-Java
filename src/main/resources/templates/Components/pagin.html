@@ -1,0 +1,7 @@
+<div class="page-btn" style="margin: 0 auto; text-align: center;" th:fragment="paginHome(total)">
+    <th:block th:if="${ total > 1}">
+        <th:block th:each="i: ${#numbers.sequence(0, total - 1)}">
+            <a class="trang" th:classappend="${i == page}  ? active : '' " th:href="@{'/search?page=' + ${i} + '&categoryID=' + ${categoryID} }" th:text="${i+1}"></a>
+        </th:block>
+    </th:block>
+</div>

@@ -1,0 +1,144 @@
+<div th:fragment="products">
+    <section>
+        <!-- Danh mục sản phẩm -->
+        <div class="categories">
+            <div class="small-container">
+                <div class="content">
+                    <div class="cate-content">
+                        <img src="/images/category-1.jpg" />
+                    </div>
+                    <div class="cate-content">
+                        <img src="/images/category-2.jpg" />
+                    </div>
+                    <div class="cate-content">
+                        <img src="/images/category-3.jpg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sản phẩm Container -->
+        <div class="small-container">
+            <!-- Search Bar -->
+            <h2 class="pro-title" style="margin: 0 auto 20px" th:text="#{lo.index.protitle}"></h2>
+            <div class="box-container" style="min-height: 5vh; width: 180px; margin: 10px; margin-left: 140px">
+                <h4 style="white-space: nowrap" th:text="#{lo.index.sort}"></h4>
+                <select id="select-category" onchange="onSelectCategory(event)" style="
+            margin-left: 10px;
+            margin-top: 3px;
+            display: block;
+            padding: 5px;
+            border: 1px solid #ff1464;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 7px;
+            cursor: pointer;
+          ">
+          <option value="0">Tất cả</option>
+          <div th:each="category:${categories}">
+            <option th:value="${category.getId()}">
+              [[${category.getName()}]]
+            </option>
+          </div>
+        </select>
+
+                <h4 style="white-space: nowrap; margin-left: 20px">hoặc</h4>
+
+                <form action="/search">
+                    <div class="search-box" style="width: 198px; float: right; margin: 0px 15px">
+                        <input name="key" th:value="${key}" placeholder="Tìm kiếm..." style="
+                height: 38px;
+                width: 155px;
+                outline: none;
+                border: 1px solid #ff1464;
+                border-radius: 6px;
+                font-size: 14px;
+                padding: 0 15px;
+              " />
+                    </div>
+                </form>
+            </div>
+            <!-- List products -->
+
+            <div class="content">
+                <div class="pro-content" th:each=" pro : ${products}">
+                    <a href="/products/details?id=${pro.id}">
+                        <img th:src="${pro.getImages()}" />
+                    </a>
+                    <h4>[[${pro.getName()}]]</h4>
+                    <div class="rating">
+                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <p style="font-weight: 700; color: #ff2435; font-size: 18px" th:text="${pro.getPrice()}"></p>
+                    <p th:text="${pro.getCreated()}">Ngày đăng:</p>
+                    <p style="
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+            " th:text="${pro.description }"></p>
+                    <a class="btn-content" th:href="@{'/them-vao-gio/'+${pro.getId()}}">Mua</a
+          >
+        </div>
+      </div>
+
+    <div class="brands">
+      <div class="small-container">
+        <div class="content">
+          <div class="icon-brand">
+            <img src="/images/logo-godrej.png" />
+          </div>
+          <div class="icon-brand">
+            <img src="/images/logo-coca-cola.png" />
+          </div>
+          <div class="icon-brand">
+            <img src="/images/logo-oppo.png" />
+          </div>
+          <div class="icon-brand">
+            <img src="/images/logo-paypal.png" />
+          </div>
+          <div class="icon-brand">
+            <img src="/images/logo-philips.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="text/javascript">
+    onSelectLoaded();
+
+    function onSelectCategory(event) {
+      let select = event.target;
+      let value = select.value;
+
+      let aTag = document.createElement("a");
+      aTag.href = "search?categoryID=" + value;
+
+      document.body.appendChild(aTag);
+      aTag.click();
+    }
+
+    function onSelectLoaded() {
+      let select = document.getElementById("select-category");
+      let s_url = window.location.href;
+      let id = 0;
+
+      s_url = s_url.substring(s_url.indexOf("?"), s_url.length);
+      let params = new URLSearchParams(s_url);
+
+      if (params.has("categoryID")) {
+        id = params.get("categoryID");
+        for (let i = 0; i < select.length; i++) {
+          const option = select[i];
+          if (option.value == id) {
+            select.selectedIndex = i;
+          }
+        }
+      }
+    }
+  </script>
+</div>

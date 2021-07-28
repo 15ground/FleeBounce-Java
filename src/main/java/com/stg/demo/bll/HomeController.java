@@ -1,5 +1,6 @@
 package com.stg.demo.bll;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,9 +8,13 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,19 +23,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stg.demo.bll.HomeController;
+import com.stg.demo.model.Category;
 import com.stg.demo.model.Customer;
 import com.stg.demo.model.Login;
 import com.stg.demo.model.Order;
 import com.stg.demo.model.OrderItems;
 import com.stg.demo.model.Products;
-
+import com.stg.demo.reponsitory.CategoriesReponsitory;
 import com.stg.demo.reponsitory.OrderItemsRepository;
 import com.stg.demo.reponsitory.OrderRepository;
+import com.stg.demo.reponsitory.ProductsResponsitory;
 import com.stg.demo.service.CartService;
 import com.stg.demo.service.CustomerService;
 import com.stg.demo.service.MailService;
 
 @Controller
+@RequestMapping("")
 public class HomeController {
 
 	@Autowired
@@ -48,9 +56,52 @@ public class HomeController {
 	@Autowired
 	CustomerService customerService;
 
-	@GetMapping("/")
-	public String home() {
-		return "redirect:/products";
+	// @RequestMapping("/")
+	// public String home(Model model) {
+
+	// 	model.addAttribute("message", "Hello");
+
+	// 	return "index";
+	// }
+
+	@Autowired
+	CategoriesReponsitory categoriesResponsitory;
+	@Autowired
+	ProductsResponsitory productsResponsitory;
+	
+	@ModelAttribute("categories")
+	public List<Category> getCategories() {
+		List<Category> categories = categoriesResponsitory.findAll();
+		return categories;
+	}
+
+	// Cài đặt tối đa 8 sản phẩm trên 1 trang Home
+	private static final int HOME_ITEMS = 8;
+
+	@GetMapping(value = { "/", "search" })
+	public String home(@RequestParam(value = "key", defaultValue = "") String key,
+			@RequestParam(value = "categoryID", defaultValue = "0") int categoryID,
+			@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+
+			Pageable pagin = PageRequest.of(page, HOME_ITEMS);
+			// // lấy sản phẩm
+			Page<Products> productPage = productsResponsitory.searchProductsPagin(key, categoryID, pagin);
+
+		 
+
+		// // data
+		model.addAttribute("categories", getCategories());
+		model.addAttribute("products", productPage.getContent());
+		model.addAttribute("maxPage", productPage.getTotalPages());
+
+		model.addAttribute("page", page);
+
+		// // search
+		model.addAttribute("categoryID", categoryID);
+		model.addAttribute("key", key);
+		
+
+		return "index";
 	}
 
 	@GetMapping("error")

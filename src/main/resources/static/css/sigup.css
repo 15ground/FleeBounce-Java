@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+@import
+	url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Nunito", sans-serif;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+	overflow-x: hidden;
+}
+
+.login {
+	text-align: center;
+	position: relative;
+	width: 280px;
+}
+
+input, button {
+	width: 100%;
+	border: 0;
+	border-radius: 10px;
+}
+
+input {
+	box-shadow: 2px 2px 5px gainsboro;
+	padding: 12px 40px 12px 20px;
+	margin-top: 10px;
+}
+
+input, button, .group i, p, a {
+	font-size: 13.33333px;
+	font-weight: 600;
+}
+
+.group {
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.group i {
+	position: absolute;
+	top: 15px;
+	right: 20px;
+}
+
+button {
+	padding: 12px;
+	background-image: linear-gradient(to right, #ff1464, purple);
+	margin-bottom: 20px;
+	cursor: pointer;
+}
+
+button, button i {
+	color: #fff;
+}
+
+butotn i {
+	margin-right: 5px;
+}
+
+p {
+	margin-bottom: 20px;
+}
+
+h2 {
+	margin-bottom: 20px;
+	color: #ff1464;
+}
+
+input:focus, input:focus::placeholder {
+	color: #ff1464;
+}
+
+input:focus, button:focus {
+	outline: 0;
+}
+
+.error {
+	color: red;
+	font-style: italic;
+	font-size: 16px;
+	width: 290px;
+}
+
+.dangnhap {
+	width: 400px;
+	padding: 30px;
+	margin: 0 auto;
+}
+
+.dangky, .quenmk {
+	display: block;
+	padding: 5px 0px;
+}
+
+.btn-add {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 10px 20px;
+	width: 50%;
+	margin: 0 auto;
+	color: #fff;
+	margin-top: 20px;
+	background-color: #ff1464;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.btn-add:hover {
+	background-color: #ff2435;
+}

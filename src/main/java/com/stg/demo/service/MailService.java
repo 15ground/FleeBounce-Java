@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.stg.demo.model.Order;
 import com.stg.demo.model.OrderItems;
-import com.stg.demo.model.Customer;
-import com.stg.demo.reponsitory.CustomerRepository;
 import com.stg.demo.reponsitory.OrderItemsRepository;
 import com.stg.demo.reponsitory.OrderRepository;
 

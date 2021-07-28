@@ -1,0 +1,45 @@
+<div th:fragment="header">
+    <div class="container-nav">
+        <div class="nav-bar">
+            <div class="container-nav">
+                <div class="nav-bar">
+                    <div class="logo">
+                        <a th:href="@{/products}">
+                            <img th:src="@{/images/logo.png}" />
+                        </a>
+                    </div>
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="/dashboard" th:text="#{lo.index.dashboard}"></a>
+                            </li>
+                            <li>
+                                <a href="#" th:text="#{lo.index.products}"></a>
+                            </li>
+                            <li>
+                                <a href="#" th:text="#{lo.index.about}"></a>
+                            </li>
+                            <li>
+                                <a href="#" th:text="#{lo.index.contact}"></a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a href="/your-cart" class="icon">
+                        <img src="/images/cart.png" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content" style="background: radial-gradient(#fff, #ffd6d6); margin-top: 20px;">
+        <div class="text-content">
+            <h1 th:utext="#{lo.index.title1}"></h1>
+            <p th:utext="#{lo.index.title2}"></p>
+            <a href="#" class="btn-content" th:utext="#{lo.index.title} ">&#8594;</a
+        >
+        </div>
+        <div class="text-content">
+        <img th:src="@{/images/image1.png} " />
+        </div>
+    </div>
+</div>

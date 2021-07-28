@@ -1,6 +1,5 @@
 package com.stg.demo.bll;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.stg.demo.model.Order;
-import com.stg.demo.model.OrderItems;
 import com.stg.demo.model.SearchForm;
 import com.stg.demo.reponsitory.OrderItemsRepository;
 import com.stg.demo.reponsitory.OrderRepository;
