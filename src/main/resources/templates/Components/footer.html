@@ -1,39 +1,83 @@
-<footer th:fragment="footer">
-    <div class="container">
-        <div class="content">
-            <div class="footer-col-1">
-                <h3 th:text="#{lo.index.app}">
-                </h3>
-                <p th:text="#{lo.index.apptitle}">
-                </p>
-                <div class="app-logo">
-                    <img src="/images/play-store.png " />
-                    <img src="/images/app-store.png " />
+<div th:fragment="footer">
+    <div class="offer">
+        <div class="small-container">
+            <div class="content">
+                <div class="text-content">
+                    <img src="/images/exclusive.png" class="offer-img" />
                 </div>
-            </div>
-            <div class="footer-col-2">
-                <img src="/images/logo-white.png " />
-                <p th:text="#{lo.index.foottitle}">
-                </p>
-            </div>
-            <div class="footer-col-3">
-                <h3 th:text="#{lo.index.contactus}">
-                </h3>
-                <ul>
-                    <li>Facebook</li>
-                    <li>Twitter</li>
-                    <li>
-                        <a href="${requestScope[ 'javax.servlet.forward.request_uri']}?lang=en " class="active-lang" th:text="#{lo.index.en}">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="${requestScope[ 'javax.servlet.forward.request_uri']}?lang=vi " th:text="#{lo.index.vi}">
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                <div class="text-content">
+                    <p>Exclusively Available on FleeBounce</p>
+                    <h1>Mi Band 4</h1>
+                    <small>The Mi Band 4 features a 39.9% larger than Mi Band 3 AMOLED color
+            full-touch display with adjustable brightness, so everything is
+            clear as can be.</small
+          ><br />
+          <button class="btn-content">Mua ngay</button>
         </div>
-        <hr />
-        <p class="copyright">Copyright 2021 - 15ground</p>
+      </div>
     </div>
-</footer>
+  </div>
+  <div class="brands">
+    <div class="small-container">
+      <div class="content">
+        <div class="icon-brand">
+          <img src="/images/logo-godrej.png" />
+        </div>
+        <div class="icon-brand">
+          <img src="/images/logo-coca-cola.png" />
+        </div>
+        <div class="icon-brand">
+          <img src="/images/logo-oppo.png" />
+        </div>
+        <div class="icon-brand">
+          <img src="/images/logo-paypal.png" />
+        </div>
+        <div class="icon-brand">
+          <img src="/images/logo-philips.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="content">
+        <div class="footer-col-1">
+          <h3 th:text="#{lo.index.app}"></h3>
+          <p th:text="#{lo.index.apptitle}"></p>
+          <div class="app-logo">
+            <img src="/images/play-store.png " />
+            <img src="/images/app-store.png " />
+          </div>
+        </div>
+        <div class="footer-col-2">
+          <img src="/images/logo-white.png " />
+          <p th:text="#{lo.index.foottitle}"></p>
+        </div>
+        <div class="footer-col-3">
+          <h3 th:text="#{lo.index.contactus}"></h3>
+          <ul>
+            <li>Facebook</li>
+            <li>Twitter</li>
+            <li>
+              <a
+                href="${requestScope[ 'javax.servlet.forward.request_uri']}?lang=en "
+                class="active-lang"
+                th:text="#{lo.index.en}"
+              >
+              </a>
+            </li>
+            <li>
+              <a
+                href="${requestScope[ 'javax.servlet.forward.request_uri']}?lang=vi "
+                th:text="#{lo.index.vi}"
+              >
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <hr />
+      <p class="copyright">Copyright 2021 - 15ground</p>
+    </div>
+  </footer>
+</div>

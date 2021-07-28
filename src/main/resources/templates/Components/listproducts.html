@@ -71,8 +71,9 @@
                         <i class="fa fa-star"></i> <i class="fa fa-star"></i>
                         <i class="fa fa-star-o"></i>
                     </div>
-                    <p style="font-weight: 700; color: #ff2435; font-size: 18px" th:text="${pro.getPrice()}"></p>
-                    <p th:text="${pro.getCreated()}">Ngày đăng:</p>
+                    <p style="font-weight: 700; color: #ff2435; font-size: 18px" th:text="${#numbers.formatInteger(pro.getPrice(), 0,'POINT')}+'đ'"></p>
+
+                    <p th:text="${'Ngày đăng: '+ #calendars.format(pro.getCreated(), 'dd/MM/yyyy')}"> </p>
                     <p style="
               overflow: hidden;
               text-overflow: ellipsis;
@@ -80,32 +81,10 @@
               -webkit-line-clamp: 3;
               -webkit-box-orient: vertical;
             " th:text="${pro.description }"></p>
-                    <a class="btn-content" th:href="@{'/them-vao-gio/'+${pro.getId()}}">Mua</a
+                    <a class="btn-content" th:href="@{'/them-vao-gio/'+${pro.getId()}}">Mua ngay</a
           >
         </div>
       </div>
-
-    <div class="brands">
-      <div class="small-container">
-        <div class="content">
-          <div class="icon-brand">
-            <img src="/images/logo-godrej.png" />
-          </div>
-          <div class="icon-brand">
-            <img src="/images/logo-coca-cola.png" />
-          </div>
-          <div class="icon-brand">
-            <img src="/images/logo-oppo.png" />
-          </div>
-          <div class="icon-brand">
-            <img src="/images/logo-paypal.png" />
-          </div>
-          <div class="icon-brand">
-            <img src="/images/logo-philips.png" />
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 
   <script type="text/javascript">
