@@ -30,7 +30,7 @@ public class Category {
 	@Column(name = "id")
 	 int id;
 
-	@NotNull
+	@NotNull(message = "Không để trống")
 	@NotBlank(message = "Tên danh mục không được để trống")
 	@Size(max = 30, message = "Tên danh mục không được quá 30 ký tự!")
 	@Column(name = "name")

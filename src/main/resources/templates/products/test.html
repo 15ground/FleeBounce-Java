@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link th:href="@{https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/dashboardst.css}" />
+    <title>Danh sách sản phẩm</title>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-details" style="text-decoration: none;">
+            <a th:href="@{/products}"> <i class='bx bxl-c-plus-plus'></i>
+            </a><span class="logo_name">Flee Bounce</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a th:href="@{/dashboard}"> <i class='bx bx-grid-alt'></i> <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/products/list}" class="active"> <i class='bx bx-box'></i> <span class="links_name">Sản phẩm</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/category/list}"> <i class='bx bx-list-ul'></i>
+                    <span class="links_name">Danh mục</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/order/list}"> <i class='bx bx-pie-chart-alt-2'></i>
+                    <span class="links_name">Đơn hàng</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{#}"> <i class='bx bx-message'></i> <span class="links_name">Tin nhắn</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{#}"> <i class='bx bx-heart'></i> <span class="links_name">Yêu thích</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{#}"> <i class='bx bx-cog'></i> <span class="links_name">Cài đặt</span>
+                </a>
+            </li>
+            <li class="log_out">
+                <a th:href="@{#}"> <i class='bx bx-log-out'></i>
+                    <span class="links_name">Đăng xuất</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+            <div class="sidebar-button">
+                <i class='bx bx-menu sidebarBtn'></i> <span class="dashboard">Sản
+					phẩm</span>
+            </div>
+
+            <div class="profile-details">
+                <img src="/images/Hoho.jpg" alt=""> <span class="admin_name">Việt
+					Hưng</span> <i class='bx bx-chevron-down'></i>
+            </div>
+        </nav>
+        <h1 style="font-size: 20px; margin: 105px auto 20px; width: 300px; font-weight: 900;">DANH SÁCH SẢN PHẨM</h1>
+        <form th:acion="@{/list}" th:object="${searchForm}" method="GET">
+            <div class="search-box" style="width: 198px; float: right; margin: 0px 15px">
+                <input type="text" path="name" name="name" th:field="*{name}" placeholder="Tìm kiếm..." style="height: 40px; width: 197px; outline: none; border: 2px solid #EFEEF1; border-radius: 6px; font-size: 14px; padding: 0 15px;" />
+                <input path="sortBy" name="sortBy" id="sortByInput" th:field="*{sortBy}" th:type="hidden" />
+                <input path="index " name="index" id="indexInput" th:field="*{index}" th:type="hidden" />
+                <input path="page" name="page" id="pageInput" th:field="*{page}" th:type="hidden" />
+                <input value="Tìm kiếm " id="searchBt " th:type="hidden" />
+            </div>
+        </form>
+        <div class="button-box " style="width: 250px; float: left; margin: 0px -24px ">
+            <span class="action_btn " style="margin-left: -82px; "><a
+				th:href="@{/products/insert} ">Thêm</a> </span>
+        </div>
+        <div class="table_responsive ">
+            <table>
+                <thead>
+
+                    <tr>
+                        <th>
+                            <button sortBy="id" class="xep" style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700; ">ID 	
+                                <th:block th:if="${searchForm.sortBy=='id'}">
+                                    <div th:with="condition=${searchForm.index}" th:remove="tag">
+                                        <span th:if="${condition}">&#8593</span>
+                                        <span th:unless="${condition}">&#8595</span>
+                                    </div>
+                                </th:block>
+                            </button>
+                        </th>
+                        <th>
+                            <button sortBy="name" class="xep" style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700; ">Tên sản phẩm
+                                <th:block th:if="${searchForm.sortBy=='name'}">
+                                    <div th:with="condition=${searchForm.index}" th:remove="tag">
+                                        <span th:if="${condition}">&#8593</span>
+                                        <span th:if="${!condition}">&#8595</span>
+                                    </div>
+                                </th:block>
+                            </button>
+                        </th>
+                        <th>
+                            <button sortBy="price" class="xep" style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700; ">Giá bán
+                                <th:block th:if="${searchForm.sortBy=='price'}">
+                                    <div th:with="condition=${searchForm.index}" th:remove="tag">
+                                        <span th:if="${condition}">&#8593</span>
+                                        <span th:unless="${condition}">&#8595</span>
+                                    </div>
+                                </th:block>
+                            </button>
+                        </th>
+                        <th>
+                            <button sortBy="created" class="xep" style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700; ">Ngày tạo
+                                <th:block th:if="${searchForm.sortBy=='created'}">
+                                    <div th:with="condition=${searchForm.index}" th:remove="tag">
+                                        <span th:if="${condition}">&#8593</span>
+                                        <span th:unless="${condition}">&#8595</span>
+                                    </div>
+                                </th:block>
+                            </button>
+                        </th>
+                        <th>
+                            <button sortBy="category.name" class="xep" style="background: #00bcd4; outline: none; border: none; color: white; cursor: pointer; font-weight: 700; ">Danh mục
+                                <th:block th:if="${searchForm.sortBy=='category.name'}">
+                                    <div th:with="condition=${searchForm.index}" th:remove="tag">
+                                        <span th:if="${condition}">&#8593</span>
+                                        <span th:unless="${condition}">&#8595</span>
+                                    </div>
+                                </th:block>
+                            </button>
+                        </th>
+
+                        <th>
+                            Mô tả
+                        </th>
+                        <th>
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each=" product : ${products}">
+                        <td>
+                            <p th:text="${product.id}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${product.name}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${product.price}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${product.created}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${product.category.name}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${product.description}"></p>
+                        </td>
+                        <td><span class="action_btn"> <a
+                            th:href="@{#}">Sửa</a>
+                            <p>Xóa</p>
+                    </span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <div class="page-btn " style="margin-top: 20px; margin-left: 600px; ">
+            <c:if test="${maxPage> 1 }">
+                <c:forEach var="pageIndex" begin="0" end="${maxPage - 1}">
+                    <button trang="${pageIndex}" class="trang<c:if test=" ${pageIndex==searchForm.page} "> active</c:if>">
+						${pageIndex + 1}</button>
+                </c:forEach>
+                </c:if>
+            </div> -->
+        <div class="page-btn" style="margin: 0 auto; text-align: center;">
+            <th:block th:if="${ maxPage > 1}">
+                <th:block th:each="pageIndex : ${#numbers.sequence(0, maxPage - 1)}">
+                    <button th:pagin="${pageIndex}" class="trang" th:classappend="${pageIndex == searchForm.page}  ? active : '' " th:text="${pageIndex+1}"></button>
+
+                </th:block>
+            </th:block>
+        </div>
+    </section>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        confirmDelete = (id) => {
+                let ok = confirm("Xác nhận xóa?");
+                if (ok == true) {
+
+                    let aTag = document.createElement("a");
+                    aTag.href = "/products/delete?id=" + id;
+                    document.body.append(aTag);
+                    aTag.click();
+
+                }
+            }
+            /* Tìm */
+        $('#searchBt').click(function() {
+            $('form #sortByInput').val(xepTheo);
+            $('form #indexInput').val(true);
+            $('form #pageInput').val(0);
+            $('form').submit();
+        });
+        /* Pagin */
+        $('.trang').click(function() {
+            var trang = $(this).attr('pagin');
+            $('form #pageInput').val(trang);
+            $('form').submit();
+        });
+        /* Sort */
+        $('.xep').click(function() {
+            var xepTheo = $(this).attr('sortBy');
+            var xepTheoInput = $('form #sortByInput');
+            var thutuInput = $('form #indexInput');
+            // kiểm tra nếu xếp theo bằng giá trị x ếp theo đã nhập
+            // thì thay đổi thứ tự
+            if (xepTheo == xepTheoInput.val()) {
+
+                if (thutuInput.val() == 'true') {
+                    thutuInput.val(false);
+                } else {
+                    thutuInput.val(true);
+                }
+
+            } else {
+                // gán giá trị thứ tự thành tăng dần
+                thutuInput.val(true);
+                // gán giá trị xếp theo cho input
+                xepTheoInput.val(xepTheo);
+            }
+            // đặt giá trị trang về 0
+            $('form #pageInput').val(0);
+            $('form').submit();
+        });
+
+        /* Menu bar */
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".sidebarBtn");
+        sidebarBtn.onclick = function() {
+            sidebar.classList.toggle("active");
+            if (sidebar.classList.contains("active")) {
+                sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+            } else
+                sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+        }
+    </script>
+</body>
+
+</html>

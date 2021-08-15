@@ -218,9 +218,10 @@ public class HomeController {
 
 	// trang gio hang
 	@GetMapping("your-cart")
-	public void gioHang(HttpServletRequest request) {
+	public void gioHang(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		session.setAttribute("cart", cartService.getGioHang());
+		model.addAttribute("cart", cartService.getGioHang());
 	}
 
 	// kiem tra dang nhap truoc khi tiep tuc thanh toan

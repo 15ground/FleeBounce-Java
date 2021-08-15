@@ -49,8 +49,6 @@ public class Order {
 	private String name;
 
 	public Order() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Order(int id, @NotNull Date created, Customer customer, List<OrderItems> order_items) {

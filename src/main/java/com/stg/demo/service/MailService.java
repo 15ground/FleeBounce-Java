@@ -48,7 +48,7 @@ public class MailService {
 	public void sendMailWithOrderId(int orderId) {
 
 		// lay data
-		Order order = orderRepository.getById(orderId);
+		Order order = orderRepository.getOne(orderId);
 		List<OrderItems> orderItems = orderItemsRepository.findOrderItems(orderId);
 
 		// tao noi dung

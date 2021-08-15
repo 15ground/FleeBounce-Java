@@ -98,7 +98,7 @@ public class ProductsController {
 			return "products/insert";
 		}
 		productsResponsitory.save(products);
-		return "redirect:list";
+		return "redirect:/products/list";
 	}
 
 	// Sửa một product
@@ -126,10 +126,8 @@ public class ProductsController {
 		productsOld.setPrice(products.getPrice());
 		productsOld.setImages(products.getImages());
 		productsOld.setCategory(products.getCategory());
-		productsOld.setPictures(products.getPictures());
 		productsOld.setDescription(products.getDescription());
 		productsResponsitory.save(productsOld);
-
 		return "redirect:list";
 	}
 

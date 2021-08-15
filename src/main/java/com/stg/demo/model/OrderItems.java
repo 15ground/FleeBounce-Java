@@ -28,8 +28,7 @@ public class OrderItems {
 	@JoinColumn(name = "order_id", nullable = false, foreignKey = @ForeignKey(name = "order_orderitems"))
 	Order order;
 	public OrderItems() {
-		super();
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public OrderItems(int amount, double total, String name, double price) {

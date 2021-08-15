@@ -62,7 +62,7 @@
 
             <div class="content">
                 <div class="pro-content" th:each=" pro : ${products}">
-                    <a href="/products/details?id=${pro.id}">
+                    <a th:href="@{'/products/details?id='+${pro.id}}">
                         <img th:src="${pro.getImages()}" />
                     </a>
                     <h4>[[${pro.getName()}]]</h4>

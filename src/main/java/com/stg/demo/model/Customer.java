@@ -18,28 +18,35 @@ public class Customer {
 	@Id
 	@GeneratedValue
 	private int id;
+
 	@NotBlank(message = "Tên khách hàng không được để trống!")
 	@Size(max = 50, message = "Tên khách hàng không được nhiều hơn 50 ký tự!")
 	private String name;
+
 	@NotNull
 	@NotBlank(message = "Số điện thoại không được để trống")
 	@Size(max = 10, message = "Số điện thoại không được quá 10 ký tự!")
 	private String phoneNumber;
+
 	@NotNull
 	@NotBlank(message = "Địa chỉ nhận hàng không được để trống!")
 	private String address;
+
 	@NotNull(message = "Email không được để trống!")
 	@Pattern(regexp = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$", message = "Sai định dạng email!")
 	private String email;
+
 	@NotNull
 	@Size(min = 6, message = "Mật khẩu phải trên 5 ký tự!")
 	private String password;
+
+	String role = "user";
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<Order> order;
 
 	public Customer() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Customer(int id, String name, String phoneNumber, String address, String email) {

@@ -62,7 +62,7 @@
     <section class="home-section">
         <nav>
             <div class="sidebar-button">
-                <i class='bx bx-menu sidebarBtn'></i> <span class="dashboard">Sản phẩm</span>
+                <i class='bx bx-menu sidebarBtn'></i> <span class="dashboard">Danh mục</span>
             </div>
 
             <div class="profile-details">
@@ -70,12 +70,13 @@
 					Hưng</span> <i class='bx bx-chevron-down'></i>
             </div>
         </nav>
-        <h1 style="font-size: 20px; margin: 105px auto 20px; width: 300px; font-weight: 900;">DANH SÁCH SẢN PHẨM</h1>
+        <h1 style="font-size: 20px; margin: 105px auto 20px; width: 300px; font-weight: 900;">DANH SÁCH DANH MỤC</h1>
+
         <div class="modal fade" id="cModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Sản phẩm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Danh mục</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -84,7 +85,7 @@
                         <form id="cForm">
                             <div class="form-control">
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Tên sản phẩm</label>
+                                    <label for="name" class="form-label">Tên danh mục</label>
                                     <input name="name" class="form-control" id="name" placeholder="Tên danh mục" required>
                                 </div>
                             </div>
@@ -126,31 +127,15 @@
                             ID
                         </th>
                         <th style="text-align: center;">
-                            Tên sản phẩm
-                        </th>
-                        <th style="text-align: center;">
-                            Giá bán
-                        </th>
-                        <th style="text-align: center;">
-                            Ngày tạo
-                        </th>
-                        <th style="text-align: center;">
-                            Danh mục
-                        </th>
-                        <th style="text-align: center;">
-                            Mô tả
+                            Tên danh mục
                         </th>
                         <th style="text-align: center;">
                             Thao tác
                         </th>
                     </tr>
                 </thead>
-                <tbody id="products">
+                <tbody id="categories">
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td>
@@ -172,45 +157,41 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script type="text/javascript">
-        var url = "/api/products";
+        var url = "/api/category";
         var template =
-            "{{#each products}}" +
+            "{{#each categories}}" +
             "<tr>" +
             "<td style='text-align: center;'>{{id}}</td>" +
             "<td style='text-align: center;'>{{name}}</td>" +
-            "<td style='text-align: center;'>{{price}}</td>" +
-            "<td style='text-align: center;'>{{created}}</td>" +
-            "<td style='text-align: center;'>{{category.name}}</td>" +
-            "<td style='text-align: center;'>{{description}}</td>" +
             '<td><span style="display: flex;justify-content: center;gap: 10px;"><button style=" text-decoration: none;color: #444;background: #fff;border: 1px solid;display: inline-block;padding: 7px 20px;font-weight: bold;border-radius: 3px;transition: 0.3s ease-in-out;border-color: orange;" class="edit" c-id="{{id}}" data-toggle="modal" data-target="#cModal ">Sửa</button>' +
             '<button style="text-decoration: none;color: #444;background: #fff;border: 1px solid;display: inline-block;padding: 7px 20px;font-weight: bold;border-radius: 3px;transition: 0.3s ease-in-out;border-color: #26a69a;" class="delete" c-id="{{id}}">Xóa</span></button></td>' +
             "<tr>" +
             "{{/each}}";
 
         var templateHandleBar = Handlebars.compile(template);
-        // Template combobox Categories
-        var categoriesSelected = "<select>{{#each categories}}" +
-            '<option value="{{id}}">' +
-            "{{name}}" +
-            "</option>" +
-            "{{/each}}</select>";
-        var categorySelectedHandleBar = Handlebars.compile(categoriesSelected);
 
-        function loadProducts() {
-            fetch(url)
+        function loadCategories() {
+            data = fetch(url)
                 .then((res) => res.json())
                 .then((data) => {
                     var categoryHTML = templateHandleBar({
-                        products: data,
+                        categories: data,
                     });
-                    $("#products").html(categoryHTML);
+                    $("#categories").html(categoryHTML);
                     bindEdit();
                     bindDelete();
                 });
         }
-        loadProducts();
+        loadCategories();
+        // Handle Search
+        $("#search-input").on('keyup', function() {
+            var searchValue = $(this).val();
+            console.log(searchValue)
+        })
+
         // Handle Validate
         $(document).ready(function() {
+
             $("#cForm").validate({
                 rules: {
                     name: "required"
@@ -223,18 +204,8 @@
         // Edit element
         var editElement = '<input type="hidden" name="id" idCategory="id" value = "{{id}}">' +
             '<div class="mb-3">' +
-            '<label for="name" class="form-label">Tên sản phẩm</label>' +
-            '<input name="name" value="{{name}}" class="form-control" id="name" placeholder="Tên sảm phẩm">' +
-            '<label for="price" class="form-label">Giá bán</label>' +
-            '<input name="price" value="{{price}}" class="form-control" id="price" placeholder="Giá bán">' +
-            '<label for="category" class="form-label">Danh mục</label>' +
-            '<select>' +
-            '{{#each category}}' +
-            '<option value="{{id}}">{{name}}</option>' +
-            '{{/each}}' +
-            '</select>' +
-            '<label for="description" class="form-label">Mô tả</label>' +
-            '<input name="description" value="{{description}}" class="form-control" id="description" placeholder="Mô tả">' +
+            '<label for="name" class="form-label">Tên danh mục</label>' +
+            '<input name="name" value="{{name}}" class="form-control" id="name" placeholder="Tên danh mục" required>' +
             '</div>';
         var editHandleBars = Handlebars.compile(editElement);
 
@@ -264,10 +235,11 @@
                 fetch(url + "/" + id, editOption)
                     .then(response => response.json())
                     .then(data => {
-                        loadProducts();
+                        loadCategories();
                     });
                 $("#cModal").modal('hide');
             }
+
         });
 
         // bindDelete
@@ -290,7 +262,7 @@
                 };
                 fetch(url + "/" + id, deleteOption)
                     .then(response => {
-                        loadProducts();
+                        loadCategories();
                     });
             }
         }
@@ -301,12 +273,7 @@
         // handleAdd
         $("#add").click(function() {
             addModal.show();
-
             var addElement = '<div class="mb-3">' +
-                '<label for="name" class="form-label">Tên sản phẩm:</label>' +
-                '<input name="name" value="" class="form-control" id="name" placeholder="Tên sản phẩm...">' +
-                '</div>';
-            addElement += '<div class="mb-3">' +
                 '<label for="name" class="form-label">Thêm danh mục:</label>' +
                 '<input name="name" value="" class="form-control" id="name" placeholder="Tên danh mục...">' +
                 '</div>';
@@ -324,7 +291,7 @@
             if ($("#cForm").valid()) {
                 fetch(url, createOption).then(res => res.json())
                     .then(data => {
-                        loadProducts();
+                        loadCategories();
                     });
                 addModal.hide();
             }
@@ -341,7 +308,7 @@
             if ($("#cForm").valid()) {
                 fetch(url, createOption).then(res => res.json())
                     .then(data => {
-                        loadProducts();
+                        loadCategories();
                     });
                 addModal.hide();
             }

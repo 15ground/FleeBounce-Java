@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <title>Thêm sản phẩm</title>
+</head>
+
+<body>
+    <div class="title" style="width: 250px; margin: 90px auto 0px;">
+        <h1>Thêm sản phẩm</h1>
+    </div>
+    <form class="form-add" action="/products/insert" method="post" th:object="${products}">
+        <input th:field="*{id}" path="id" type="hidden" />
+        <br />
+        <label th:field="*{name}" for="name">Tên sản phẩm:</label>
+        <input th:field="*{name}" id=" name " placeholder="Tên sản phẩm... "></i>
+        <i th:errors="*{name}" style="color:red;margin-left: 10px;
+    font-style: italic;"></i>
+        <br />
+        <label th:field="*{price}" for="price">Giá bán:</label>
+        <input th:field="*{price}" id="price" placeholder="Giá bán..." value="0"></input>
+        <i th:errors="*{price}" style="color:red;margin-left: 10px;
+        font-style: italic;"></i>
+        <br />
+        <label th:field="*{images}" for="images">Link hình ảnh:</label>
+        <input th:field="*{images}" id="images" placeholder="Link hình ảnh..."></input>
+        <i th:errors="*{images}" style="color:red;margin-left: 10px;
+    font-style: italic;"></i>
+        <br />
+        <label th:field="*{category}" for="category">Danh mục sản phẩm:</label>
+        <select class="selected-box" id="category" th:field="*{category}">
+            <option th:each="category : ${categories}"
+               th:value="${category.id}"
+               th:utext="${category.name}"></option>
+        </select>
+        <i th:errors="*{category}" style="color:red;margin-left: 10px;
+    font-style: italic;"></i>
+        <br />
+        <label th:field="*{description}" for="description">Mô tả:</label>
+        <input th:field="*{description}" id="description" placeholder="Mô tả sản phẩm..."></input>
+        <br />
+        <input class="btn-add" style="width: 200px; margin: 0 auto;" type="submit" value="Thêm" />
+    </form>
+</body>
+
+</html>
