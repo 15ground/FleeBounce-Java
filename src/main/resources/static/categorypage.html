@@ -1,194 +1,91 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title>Insert title here</title>
 </head>
-<div class="modal fade" id="cModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-            </div>
-            <div class="modal-body">
-                <form id="cForm"></form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-                <button type="button" id="save" class="btn btn-primary save">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-<button id="add">Thêm</button>
 
 <body>
+    <form id="searchForm">
+        Tên : <input name="name" type="text">
+        <input type="hidden" name="page" value="0"> Xếp theo:
+        <select name="sortBy">
+			<option value="id">Id</option>
+			<option value="name">Tên</option>
+		</select> Thứ tự :
+        <select name="index">
+			<option value="true">Tăng dần</option>
+			<option value="false">Giảm dần</option>
+		</select>
+        <button type="button" id="bSearch">Tìm kiếm</button>
+    </form>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
+                <th>id</th>
+                <th>Tên</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody id="categories">
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    <button class="edit" c-id="{{id}}" data-toggle="modal" data-target="#cModal">
-              Edit
-            </button>
-                </td>
-            </tr>
         </tbody>
     </table>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-<script src="https://brainfoolong.github.io/form-data-json/lib/form-data-json.min.js"></script>
-<script>
-    // Load data to table
-    var url = "/api/category";
-    var template =
-        "{{#each categories}}" +
-        "<tr>" +
-        "<td>{{id}}</td>" +
-        "<td>{{name}}</td>" +
-        '<td><button class="edit" c-id="{{id}}" data-toggle="modal" data-target="#cModal">Sửa</button></td>' +
-        '<td><button class="delete" c-id="{{id}}">Xóa</button></td>' +
-        "<tr>" +
-        "{{/each}}";
+    <div id="paging">
+    </div>
 
-    var templateHandleBar = Handlebars.compile(template);
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://brainfoolong.github.io/form-data-json/lib/form-data-json.min.js"></script>
+    <script type="text/javascript">
+        var rowTemplate = "{{#each categories}}" +
+            "<tr>" +
+            '<td>{{id}}</td>' +
+            '<td>{{name}}</td>' +
+            '<td><button class="edit" c-id="{{id}}">Edit</td>' +
+            '<td><button class="delete" c-id="{{id}}">Delete</td>' +
+            "</tr>" +
+            "{{/each}}";
+        var rowHbs = Handlebars.compile(rowTemplate);
 
-    function loadCategories() {
-        fetch(url)
-            .then((res) => res.json())
-            .then((data) => {
-                var categoryHTML = templateHandleBar({
-                    categories: data,
-                });
-                $("#categories").html(categoryHTML);
-                bindEdit();
-                bindDelete();
-            });
-    }
-    loadCategories();
+        function loadList() {
+            var searchForm = FormDataJson.formToJson(document.querySelector("form"));
+            var searchOption = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(searchForm)
+            };
 
-    // Edit element
-    var editElement = '<input type="hidden" name="id" idCategory="id" value = "{{id}}">' +
-        '<div class="mb-3">' +
-        '<label for="name" class="form-label">Tên danh mục</label>' +
-        '<input name="name" value="{{name}}" class="form-control" id="name" placeholder="Tên danh mục">' +
-        '</div>';
-    var editHandleBars = Handlebars.compile(editElement);
 
-    function bindEdit() {
-        $(".edit").click(function() {
-            var id = $(this).attr("c-id");
-            fetch(url + "/" + id)
-                .then(res => res.json())
+            fetch("/api/category/search", searchOption).then(res => res.json())
                 .then(data => {
-                    var editHTML = editHandleBars(data);
-                    $("#cForm").html(editHTML);
+                    var rows = rowHbs({
+                        categories: data.content
+                    });
+                    $("#categories").html(rows);
+
+                    var pageHtml = "";
+                    for (var i = 0; i < data.totalPages; i++) {
+                        pageHtml += `<button value="${i}" class="page-link pageIndex">${i+1}</button>`;
+                    }
+                    $("#paging").html(pageHtml);
+
+                    $(".pageIndex").click(function() {
+                        $('#searchForm input[name="page"]').val($(this).val());
+                        loadList();
+                    });
                 });
+        }
+        loadList();
+
+        $("#bSearch").click(function() {
+            loadList();
         });
-    }
-
-    $("#save").click(function() {
-        var hang = FormDataJson.formToJson(document.querySelector("form"));
-        var id = $(this).attr("idCategory");
-        var editOption = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(hang)
-
-        };
-
-        fetch(url + "/" + id, editOption)
-            .then(response => response.json())
-            .then(data => {
-                loadCategories();
-            });
-        $("#cModal").modal('hide');
-    });
-
-    // bindDelete
-    function bindDelete() {
-        $(".delete").click(function() {
-            handleDelete($(this));
-        });
-    }
-    // handleDelete
-    function handleDelete($button) {
-        var id = $button.attr("c-id");
-        var deleteOption = {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        fetch(url + "/" + id, deleteOption)
-            .then(response => {
-                loadCategories();
-            });
-    }
-    // Select Modal
-    var addModal = new bootstrap.Modal(document.getElementById('cModal'), {
-        keyboard: false
-    });
-    // handleAdd
-    $("#add").click(function() {
-        addModal.show();
-        var addElement = '<div class="mb-3">' +
-            '<label for="c-Name" class="form-label">Name</label>' +
-            '<input name="name" value="" class="form-control" id="c-Name" placeholder="Name">' +
-            '</div>';
-        $("#cForm").html(addElement);
-    });
-    $(".save").click(function() {
-        var addCategory = FormDataJson.formToJson(document.querySelector("form"));
-        var createOption = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(addCategory)
-        };
-        fetch(url, createOption).then(res => res.json())
-            .then(data => {
-                loadCategories();
-            });
-        addModal.hide();
-    })
-    $("#cModal").submit(function() {
-        var addCategory = FormDataJson.formToJson(document.querySelector("form"));
-        var createOption = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(addCategory)
-        };
-        fetch(url, createOption).then(res => res.json())
-            .then(data => {
-                loadCategories();
-            });
-        addModal.hide();
-    });
-</script>
+    </script>
+</body>
 
 </html>

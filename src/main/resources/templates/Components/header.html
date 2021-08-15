@@ -22,6 +22,9 @@
                             <li>
                                 <a href="#" th:text="#{lo.index.contact}"></a>
                             </li>
+                            <li>
+                                <a th:href="@{'/login?cartStatus='+${cartStatus}}">Đăng nhập</a>
+                            </li>
                         </ul>
                     </nav>
                     <a href="/your-cart" class="icon">

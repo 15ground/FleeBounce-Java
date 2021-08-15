@@ -52,7 +52,6 @@ public class Products {
 
 	String description;
 
-	@CheckID
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "id"))
 	Category category;

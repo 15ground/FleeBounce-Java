@@ -78,10 +78,11 @@ public class HomeController {
 	// Cài đặt tối đa 8 sản phẩm trên 1 trang Home
 	private static final int HOME_ITEMS = 8;
 
-	@GetMapping(value = { "/", "search" })
+	@GetMapping(value = { "/", "search", "home" })
 	public String home(@RequestParam(value = "key", defaultValue = "") String key,
 			@RequestParam(value = "categoryID", defaultValue = "0") int categoryID,
-			@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+			@RequestParam(value = "page", defaultValue = "0") int page, 
+			@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus, Model model) {
 
 			Pageable pagin = PageRequest.of(page, HOME_ITEMS);
 			// // lấy sản phẩm
@@ -99,7 +100,7 @@ public class HomeController {
 		// // search
 		model.addAttribute("categoryID", categoryID);
 		model.addAttribute("key", key);
-		
+		model.addAttribute("cartStatus", cartStatus);
 
 		return "index";
 	}
@@ -157,7 +158,7 @@ public class HomeController {
 			model.addAttribute("address", customerService.getCustomer().getAddress());
 			session.setAttribute("username", customerService.getCustomer().getName());
 			session.setAttribute("currentUser", customerService.getCustomer());
-			return cartStatus == 1 ? "checkout" : "redirect:/products";
+			return cartStatus == 1 ? "checkout" : "redirect:/home";
 		} else {
 			model.addAttribute("cartStatus", cartStatus);
 			model.addAttribute("login", login);

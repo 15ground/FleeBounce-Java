@@ -71,7 +71,27 @@
             </div>
         </nav>
         <h1 style="font-size: 20px; margin: 105px auto 20px; width: 300px; font-weight: 900;">DANH SÁCH DANH MỤC</h1>
-
+        <form id="searchForm" style="display: flex; flex-wrap: nowrap; float: right; margin-right: 15px;">
+            <input name="name" id="iSearch" type="text" placeholder="Tìm kiếm..." style="height: 40px; width: 197px; outline: none; border: 2px solid #EFEEF1; border-radius: 6px; font-size: 14px; padding: 0 15px;">
+            </br>
+            <input type="hidden" name="page" value="0">
+            <h4 style="white-space: nowrap;color: #555;
+            font-weight: 800;
+            font-size: 16px;
+    margin: 10px 0 0 10px;">Lọc theo: </h4>
+            <select id="sSearch" class="selected" name="sortBy">
+                <option value="id">ID</option>
+                <option value="name">Tên</option>
+            </select>
+            <h4 style="white-space: nowrap;color: #555;
+            font-weight: 800;
+            font-size: 16px;
+    margin: 10px 0 0 10px;">Thứ tự: </h4>
+            <select id="sIndex" class="selected" name="index">
+                <option value="true">Tăng dần</option>
+                <option value="false">Giảm dần</option>
+            </select>
+        </form>
         <div class="modal fade" id="cModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -82,7 +102,7 @@
                   </button>
                     </div>
                     <div class="modal-body">
-                        <form id="cForm">
+                        <form id="cForm" class="cForm">
                             <div class="form-control">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Tên danh mục</label>
@@ -112,12 +132,6 @@
         border-color: #26a69a;
         margin: 0px 15px 0;
         position: absolute;">Thêm</button>
-
-        <div class="search" style="width: 200px;
-        float: right;">
-            <input type="text" id="search-input" class="form-control">
-        </div>
-
         <div class="table_responsive ">
             <table>
                 <thead>
@@ -147,6 +161,8 @@
                 </tbody>
             </table>
         </div>
+        <div id="paging" class="page-btn" style="margin: 0 auto; text-align: center;">
+        </div>
     </section>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
@@ -171,27 +187,47 @@
         var templateHandleBar = Handlebars.compile(template);
 
         function loadCategories() {
-            data = fetch(url)
-                .then((res) => res.json())
-                .then((data) => {
-                    var categoryHTML = templateHandleBar({
-                        categories: data,
+            var searchForm = FormDataJson.formToJson(document.querySelector("form"));
+            var searchOption = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(searchForm)
+            };
+
+            fetch("/api/category/search", searchOption).then(res => res.json())
+                .then(data => {
+                    var rows = templateHandleBar({
+                        categories: data.content
                     });
-                    $("#categories").html(categoryHTML);
+                    $("#categories").html(rows);
                     bindEdit();
                     bindDelete();
+                    var pageHtml = "";
+                    for (var i = 0; i < data.totalPages; i++) {
+                        pageHtml += `<button value="${i}" class='${i == searchForm.page ? "page-link active pageIndex" : "page-link pageIndex"}'>${i+1}</button>`;
+                    }
+                    $("#paging").html(pageHtml);
+
+                    $(".pageIndex").click(function() {
+                        $('#searchForm input[name="page"]').val($(this).val());
+                        loadCategories();
+                    });
                 });
         }
         loadCategories();
-        // Handle Search
-        $("#search-input").on('keyup', function() {
-            var searchValue = $(this).val();
-            console.log(searchValue)
+        $("#iSearch").keyup(function() {
+            loadCategories();
         })
-
+        $("#sSearch").change(function() {
+            loadCategories();
+        })
+        $("#sIndex").change(function() {
+            loadCategories();
+        });
         // Handle Validate
         $(document).ready(function() {
-
             $("#cForm").validate({
                 rules: {
                     name: "required"
@@ -221,14 +257,14 @@
             });
         }
         $("#save").click(function() {
-            var hang = FormDataJson.formToJson(document.querySelector("form"));
+            var editCategory = FormDataJson.formToJson(document.querySelector("#cForm"));
             var id = $(this).attr("idCategory");
             var editOption = {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(hang)
+                body: JSON.stringify(editCategory)
 
             };
             if ($("#cForm").valid()) {
@@ -280,7 +316,7 @@
             $("#cForm").html(addElement);
         });
         $(".save").click(function() {
-            var addCategory = FormDataJson.formToJson(document.querySelector("form"));
+            var addCategory = FormDataJson.formToJson(document.querySelector("#cForm"));
             var createOption = {
                 method: 'POST',
                 headers: {
@@ -297,7 +333,7 @@
             }
         })
         $("#cModal").submit(function() {
-            var addCategory = FormDataJson.formToJson(document.querySelector("form"));
+            var addCategory = FormDataJson.formToJson(document.querySelector("#cForm"));
             var createOption = {
                 method: 'POST',
                 headers: {

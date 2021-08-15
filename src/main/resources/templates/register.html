@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/sigup.css}" />
+    <title>Đăng ký</title>
+</head>
+
+<body>
+    <div class="login">
+        <form th:action="@{'/register?cartStatus='+${cartStatus}}" method="POST" th:object="${customer}">
+
+            <h2>ĐĂNG KÝ</h2>
+            <div class="group">
+                <input type="text" th:field="*{name}" path="name" name="name" placeholder="Họ và tên..." />
+                <br />
+                <input type="text" th:field="*{phoneNumber}" path="phoneNumber" name="phoneNumber" placeholder="Số điện thoại..." />
+                <br />
+                <input type="password" th:field="*{passWord}" path="password" name="password" placeholder="Mật khẩu..." />
+                <br />
+                <input type="email" th:field="*{email}" path="email" name="email" placeholder="Địa chỉ email..." />
+                <br />
+                <input type="text" th:field="*{address}" path="address" name="address" placeholder="Địa chỉ..." />
+                <br />
+            </div>
+            <input class="btn-add" style="width: 200px; margin: 0 auto;" type="submit" value="Đăng ký" />
+            <br />
+            <a th:href="@{'/login?cartStatus='+${cartStatus}}" class="sig-up">Đăng
+				nhập</a> / <a th:href="@{#}" class="forgot-password">Quên mật khẩu</a>
+        </form>
+    </div>
+</body>
+
+</html>

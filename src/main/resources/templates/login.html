@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/sigup.css}" />
+    <title>Đăng nhập</title>
+</head>
+
+<body>
+    <div class="login">
+        <form th:action="@{'/login?cartStatus='+${cartStatus}}" method="POST" th:object="${login}">
+
+            <h2>ĐĂNG NHẬP</h2>
+            <div class="group" style="margin-bottom: -20px;">
+                <input type="text" th:field="*{phoneNumber}" th:value="${login.getPhoneNumber() }" path="phoneNumber" name="phoneNumber" placeholder="Số điện thoại..." />
+                <br />
+                <input type="password" th:field="*{passWord}" path="passWord" name="passWord" placeholder="Mật khẩu..." />
+                <p style="color: red; margin-top: 10px;">[[${message }]]</p>
+                <br />
+            </div>
+            <input class="btn-add" style="width: 200px; margin: 0 auto 10px;" type="submit" value="Đăng nhập" />
+            <p class="fs" style="margin-bottom: 10px;">
+                Bạn đã quên <a href="#">Tài khoản</a> / <a href="#">Mật khẩu</a> ?
+            </p>
+            <p class="ss">
+                Bạn chưa có tài khoản? <a th:href="@{'/register?cartStatus='+${cartStatus}}">Đăng
+					ký</a>
+            </p>
+        </form>
+    </div>
+</body>
+
+</html>
