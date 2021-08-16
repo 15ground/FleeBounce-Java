@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <title>Xác nhận đơn hàng</title>
+</head>
+
+<body>
+    <h2 class="pro-title" style="margin-top: 90px;">Vui lòng xác nhận đơn hàng của bạn</h2>
+    <form class="form-add" action="check-out" method="post" th:object="${order}" style="width: 1040px;margin-left: 273px;">
+        <input th:field="*{id}" type="hidden" />
+        <br />
+        <label th:name="name">Họ và tên:</label>
+        <input th:name="name" th:value=" ${name}" placeholder="Họ và tên... "></input>
+        <div th:errors=*{name} style="color:red;margin-left: 10px;font-style: italic; "></div>
+        <br />
+        <label th:name="phoneNumber">Số điện thoại:</label>
+        <input th:name="phoneNumber" th:value="${phoneNumber} " placeholder="Số điện thoại... "></input>
+        <div th:errors=*{phoneNumber} style="color:red;margin-left: 10px;font-style: italic; "></div>
+        <br />
+        <label th:name="address">Địa chỉ nhận hàng:</label>
+        <input th:name="address" th:value="${address} " placeholder="Địa chỉ nhận hàng... "></input>
+        <div th:errors=*{address} style="color:red;margin-left: 10px;font-style: italic; "></div>
+        <br />
+        <button class="btn-add " style="width: 200px; margin: 30px auto 0; " value="Xác nhận ">Xác nhận</button>
+    </form>
+
+</body>
+
+</html>

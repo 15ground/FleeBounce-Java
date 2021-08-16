@@ -3,8 +3,6 @@ package com.stg.demo.bll;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,14 +54,6 @@ public class HomeController {
 	@Autowired
 	CustomerService customerService;
 
-	// @RequestMapping("/")
-	// public String home(Model model) {
-
-	// 	model.addAttribute("message", "Hello");
-
-	// 	return "index";
-	// }
-
 	@Autowired
 	CategoriesReponsitory categoriesResponsitory;
 	@Autowired
@@ -100,8 +90,8 @@ public class HomeController {
 		// // search
 		model.addAttribute("categoryID", categoryID);
 		model.addAttribute("key", key);
+		model.addAttribute("currentUser", customerService.getCustomer());
 		model.addAttribute("cartStatus", cartStatus);
-
 		return "index";
 	}
 
@@ -148,54 +138,26 @@ public class HomeController {
 
 	@PostMapping("login")
 	public String loginPost(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus,
-			@Valid @ModelAttribute("login") Login login, Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
+			@Valid @ModelAttribute("login") Login login, Model model) {
 		if (customerService.Login(login.getPhoneNumber(), login.getPassWord())) {
 			model.addAttribute("cart", cartService.getGioHang());
 			model.addAttribute("order", new Order());
 			model.addAttribute("name", customerService.getCustomer().getName());
 			model.addAttribute("phoneNumber", customerService.getCustomer().getPhoneNumber());
 			model.addAttribute("address", customerService.getCustomer().getAddress());
-			session.setAttribute("username", customerService.getCustomer().getName());
-			session.setAttribute("currentUser", customerService.getCustomer());
+			model.addAttribute("username", customerService.getCustomer().getName());
+			model.addAttribute("currentUser", customerService.getCustomer());
 			return cartStatus == 1 ? "checkout" : "redirect:/home";
 		} else {
 			model.addAttribute("cartStatus", cartStatus);
 			model.addAttribute("login", login);
-			session.setAttribute("message", "Tài khoản hoặc mật khẩu không chính xác!");
+			model.addAttribute("message", "Tài khoản hoặc mật khẩu không chính xác!");
 			return "login";
 		}
 
 	}
 
 	// dang kí
-	@PostMapping("register")
-	public String register(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus,
-			@Valid @ModelAttribute("customer") Customer customer, BindingResult result, Model model,
-			HttpServletRequest request) {
-		// valid data
-		if (result.hasErrors()) {
-			return "register";
-		}
-		HttpSession session = request.getSession();
-		// check dang ki
-		if (customerService.Register(customer)) {
-			model.addAttribute("cart", cartService.getGioHang());
-			model.addAttribute("order", new Order());
-			model.addAttribute("name", customerService.getCustomer().getName());
-			model.addAttribute("phoneNumber", customerService.getCustomer().getPhoneNumber());
-			model.addAttribute("address", customerService.getCustomer().getAddress());
-			session.setAttribute("username", customerService.getCustomer().getName());
-			session.setAttribute("currentUser", customerService.getCustomer());
-			return cartStatus == 1 ? "checkout" : "redirect:/products";
-
-		} else {
-			model.addAttribute("cartStatus", cartStatus);
-			return "register";
-		}
-
-	}
-
 	@GetMapping("register")
 	public String registerGet(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus, Model model) {
 		model.addAttribute("cartStatus", cartStatus);
@@ -203,34 +165,54 @@ public class HomeController {
 		return "register";
 	}
 
-	@PostMapping("logout")
-	public String logOut(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus, Model model,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if (customerService.Logout(customerService.getCustomer().getId())) {
-			session.removeAttribute("username");
-			session.removeAttribute("currentUser");
+	@PostMapping("register")
+	public String register(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus,
+			@Validated @ModelAttribute("customer") Customer customer, BindingResult result, Model model) {
+		// valid data
+		if (result.hasErrors()) {
+			return "register";
+		}
+		// check dang ki
+		if (customerService.Register(customer)) {
+			model.addAttribute("cart", cartService.getGioHang());
+			model.addAttribute("order", new Order());
+			model.addAttribute("name", customerService.getCustomer().getName());
+			model.addAttribute("phoneNumber", customerService.getCustomer().getPhoneNumber());
+			model.addAttribute("address", customerService.getCustomer().getAddress());
+			model.addAttribute("username", customerService.getCustomer().getName());
+			model.addAttribute("currentUser", customerService.getCustomer());
+			return cartStatus == 1 ? "checkout" : "redirect:/home";
+
+		} else {
+			model.addAttribute("cartStatus", cartStatus);
+			return "register";
+		}
+
+	}
+	
+	@GetMapping("/logout")
+	public String logOut(@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus, Model model) {
+			customerService.ConfirmLogout();
 			// lam moi lai gio hang
 			cartService.getGioHang().getCartDetails().clear();
-		}
-		return "redirect:/products";
+		return "redirect:/home";
 	}
+	
 	/// XU LY GIO HANG
 
 	// trang gio hang
 	@GetMapping("your-cart")
-	public void gioHang(HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		session.setAttribute("cart", cartService.getGioHang());
+	public void gioHang(Model model,@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus) {
 		model.addAttribute("cart", cartService.getGioHang());
+		model.addAttribute("currentUser", customerService.getCustomer());
+		model.addAttribute("cartStatus", cartStatus);
 	}
 
 	// kiem tra dang nhap truoc khi tiep tuc thanh toan
 	@GetMapping("check-out")
-	public String checkout(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public String checkout(Model model) {
 		if (customerService.isCustomerLogin()) {
-			session.setAttribute("cart", cartService.getGioHang());
+			model.addAttribute("cart", cartService.getGioHang());
 			model.addAttribute("order", new Order());
 			model.addAttribute("name", customerService.getCustomer().getName());
 			model.addAttribute("phoneNumber", customerService.getCustomer().getPhoneNumber());
@@ -276,6 +258,6 @@ public class HomeController {
 		// gui mail de duoi cung
 		mailService.sendMailWithOrderId(order.getId());
 
-		return "redirect:/products";
+		return "redirect:/home";
 	}
 }

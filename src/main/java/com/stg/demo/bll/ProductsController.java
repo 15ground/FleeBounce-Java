@@ -24,6 +24,7 @@ import com.stg.demo.model.Products;
 import com.stg.demo.model.SearchForm;
 import com.stg.demo.reponsitory.CategoriesReponsitory;
 import com.stg.demo.reponsitory.ProductsResponsitory;
+import com.stg.demo.service.CustomerService;
 
 @Controller
 @RequestMapping("products")
@@ -140,13 +141,18 @@ public class ProductsController {
 		productsResponsitory.delete(productsOption.get());
 		return "redirect:list";
 	}
-
+	@Autowired
+	CustomerService customerService;
 	@GetMapping("details")
-	public String details(@RequestParam(name = "id") int cId, Model model) {
+	public String details(@RequestParam(name = "id") int cId, 
+	Model model,
+	@RequestParam(value = "cartStatus", defaultValue = "0") int cartStatus) {
 		Optional<Products> productsOption = productsResponsitory.findById(cId);
 		if (productsOption.isEmpty())
 			return "redirect:list";
 		model.addAttribute("proDetails", productsOption.get());
+		model.addAttribute("currentUser", customerService.getCustomer());
+		model.addAttribute("cartStatus", cartStatus);
 		return "prodetails";
 	}
 

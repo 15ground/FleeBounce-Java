@@ -9,4 +9,6 @@ public interface CustomerService {
 	boolean Logout(int customer_id);
 	boolean Login(String phoneNumber, String password);
 	boolean isCustomerLogin();
+	void ConfirmLogout();
+	boolean isAdmin();
 }

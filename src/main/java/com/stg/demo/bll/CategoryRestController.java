@@ -48,7 +48,7 @@ public class CategoryRestController {
 	public Category update(@RequestBody Category category) {
 		return categoryRepository.save(category);
 	}
-	private static final int LIMIT_ITEMS = 3;
+	private static final int LIMIT_ITEMS = 5;
 	@PostMapping("api/category/search")
 	public Page<Category> search(@RequestBody SearchForm sf){
 		Pageable paging = PageRequest.of(sf.getPage(),

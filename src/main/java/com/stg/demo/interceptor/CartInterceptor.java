@@ -19,7 +19,7 @@ public class CartInterceptor implements HandlerInterceptor {
 			throws Exception {
 		// nếu giỏ hàng trống thì chuyển về trang chủ
 		if (cartService.getGioHang().getCartDetails().size() == 0) {
-			response.sendRedirect("/empty");
+			response.sendRedirect("/home");
 			return false;
 		}
 		return true;

@@ -1,0 +1,37 @@
+<div th:fragment="otherfooter">
+    <footer>
+        <div class="container">
+            <div class="content">
+                <div class="footer-col-1">
+                    <h3 th:text="#{lo.index.app}"></h3>
+                    <p th:text="#{lo.index.apptitle}"></p>
+                    <div class="app-logo">
+                        <img src="/images/play-store.png " />
+                        <img src="/images/app-store.png " />
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="/images/logo-white.png " />
+                    <p th:text="#{lo.index.foottitle}"></p>
+                </div>
+                <div class="footer-col-3">
+                    <h3 th:text="#{lo.index.contactus}"></h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>
+                            <a href="${requestScope[ 'javax.servlet.forward.request_uri']}?lang=en " class="active-lang" th:text="#{lo.index.en}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${requestScope[ 'javax.servlet.forward.request_uri']}?lang=vi " th:text="#{lo.index.vi}">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr />
+            <p class="copyright">Copyright 2021 - 15ground</p>
+        </div>
+    </footer>
+</div>

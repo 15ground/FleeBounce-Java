@@ -13,18 +13,29 @@
 <body>
     <div class="login">
         <form th:action="@{'/register?cartStatus='+${cartStatus}}" method="POST" th:object="${customer}">
-
             <h2>ĐĂNG KÝ</h2>
             <div class="group">
-                <input type="text" th:field="*{name}" path="name" name="name" placeholder="Họ và tên..." />
+                <input type="hidden" th:field="*{id}" name="id" />
                 <br />
-                <input type="text" th:field="*{phoneNumber}" path="phoneNumber" name="phoneNumber" placeholder="Số điện thoại..." />
+                <input type="text" th:field="*{name}" name="name" placeholder="Họ và tên..." />
+                <div th:errors="*{name}" style="color:red;margin-left: 10px;
+                font-style: italic;"></div>
                 <br />
-                <input type="password" th:field="*{passWord}" path="password" name="password" placeholder="Mật khẩu..." />
+                <input type="text" th:field="*{phoneNumber}" name="phoneNumber" placeholder="Số điện thoại..." />
+                <div th:errors="*{phoneNumber}" style="color:red;margin-left: 10px;
+                font-style: italic;"></div>
                 <br />
-                <input type="email" th:field="*{email}" path="email" name="email" placeholder="Địa chỉ email..." />
+                <input type="password" th:field="*{password}" name="password" placeholder="Mật khẩu..." />
+                <div th:errors="*{password}" style="color:red;margin-left: 10px;
+                font-style: italic;"></div>
                 <br />
-                <input type="text" th:field="*{address}" path="address" name="address" placeholder="Địa chỉ..." />
+                <input type="email" th:field="*{email}" name="email" placeholder="Địa chỉ email..." />
+                <div th:errors="*{email}" style="color:red;margin-left: 10px;
+                font-style: italic;"></div>
+                <br />
+                <input type="text" th:field="*{address}" name="address" placeholder="Địa chỉ..." />
+                <div th:errors="*{address}" style="color:red;margin-left: 10px;
+    font-style: italic;"></div>
                 <br />
             </div>
             <input class="btn-add" style="width: 200px; margin: 0 auto;" type="submit" value="Đăng ký" />

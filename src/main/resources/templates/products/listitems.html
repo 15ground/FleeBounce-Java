@@ -17,7 +17,7 @@
 
     <div class="sidebar">
         <div class="logo-details" style="text-decoration: none;">
-            <a th:href="@{/products}"> <i class='bx bxl-c-plus-plus'></i>
+            <a th:href="@{/home}"> <i class='bx bxl-c-plus-plus'></i>
             </a><span class="logo_name">Flee Bounce</span>
         </div>
         <ul class="nav-links">
@@ -71,6 +71,29 @@
             </div>
         </nav>
         <h1 style="font-size: 20px; margin: 105px auto 20px; width: 300px; font-weight: 900;">DANH SÁCH SẢN PHẨM</h1>
+        <form id="searchForm" style="display: flex; flex-wrap: nowrap; float: right; margin-right: 15px;">
+            <input name="name" id="iSearch" type="text" placeholder="Tìm kiếm..." style="height: 40px; width: 197px; outline: none; border: 2px solid #EFEEF1; border-radius: 6px; font-size: 14px; padding: 0 15px;">
+            </br>
+            <input type="hidden" name="page" value="0">
+            <h4 style="white-space: nowrap;color: #555;
+            font-weight: 800;
+            font-size: 16px;
+    margin: 10px 0 0 10px;">Lọc theo: </h4>
+            <select id="sSearch" class="selected" name="sortBy">
+                <option value="id">ID</option>
+                <option value="name">Tên</option>
+                <option value="price">Giá bán</option>
+                <option value="category.name">Danh mục</option>
+            </select>
+            <h4 style="white-space: nowrap;color: #555;
+            font-weight: 800;
+            font-size: 16px;
+    margin: 10px 0 0 10px;">Thứ tự: </h4>
+            <select id="sIndex" class="selected" name="index">
+                <option value="true">Tăng dần</option>
+                <option value="false">Giảm dần</option>
+            </select>
+        </form>
         <div class="modal fade" id="cModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -121,7 +144,7 @@
                             Giá bán
                         </th>
                         <th style="text-align: center;">
-                            Ngày tạo
+                            Hình ảnh
                         </th>
                         <th style="text-align: center;">
                             Danh mục
@@ -151,6 +174,8 @@
                 </tbody>
             </table>
         </div>
+        <div id="paging" class="page-btn" style="margin: 0 auto; text-align: center;">
+        </div>
     </section>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
@@ -168,7 +193,7 @@
             "<td style='text-align: center;'>{{id}}</td>" +
             "<td style='text-align: center;'>{{name}}</td>" +
             "<td style='text-align: center;'>{{price}}</td>" +
-            "<td style='text-align: center;'>{{created}}</td>" +
+            "<td style='text-align: center;'><img src={{images}}></td>" +
             "<td style='text-align: center;'>{{category.name}}</td>" +
             "<td style='text-align: center;'>{{description}}</td>" +
             '<td><span style="display: flex;justify-content: center;gap: 10px;"><button style=" text-decoration: none;color: #444;background: #fff;border: 1px solid;display: inline-block;padding: 7px 20px;font-weight: bold;border-radius: 3px;transition: 0.3s ease-in-out;border-color: orange;" class="edit" c-id="{{id}}" data-toggle="modal" data-target="#cModal ">Sửa</button>' +
@@ -178,78 +203,122 @@
 
         var templateHandleBar = Handlebars.compile(template);
         // Template combobox Categories
-        var categoriesSelected = '<label for="category.id" class="form-label">Danh mục:</label>' +
-            '<select name="category.category_id">{{#each categories}}' +
-            '<option value="{{category_id}}">' +
+        var categoriesSelected = '<label for="categoryId" class="form-label">Danh mục:</label>' +
+            '<select id="selectedCate" name="categoryId">{{#each categories}}' +
+            '<option value="{{id}}">' +
             "{{name}}" +
             "</option>" +
             "{{/each}}</select>";
         var categorySelectedHandleBar = Handlebars.compile(categoriesSelected);
 
         function loadProducts() {
-            fetch(url)
-                .then((res) => res.json())
-                .then((data) => {
-                    var productHTML = templateHandleBar({
-                        products: data,
+            var searchForm = FormDataJson.formToJson(document.querySelector("form"));
+            var searchOption = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(searchForm)
+            };
+
+            fetch("/api/products/search", searchOption).then(res => res.json())
+                .then(data => {
+                    var rows = templateHandleBar({
+                        products: data.content
                     });
-                    $("#products").html(productHTML);
+                    $("#products").html(rows);
                     bindEdit();
                     bindDelete();
+                    var pageHtml = "";
+                    for (var i = 0; i < data.totalPages; i++) {
+                        pageHtml += `<button value="${i}" class='${i == searchForm.page ? "page-link active pageIndex" : "page-link pageIndex"}'>${i+1}</button>`;
+                    }
+                    $("#paging").html(pageHtml);
+
+                    $(".pageIndex").click(function() {
+                        $('#searchForm input[name="page"]').val($(this).val());
+                        loadProducts();
+                    });
                 });
         }
         loadProducts();
+        $("#iSearch").keyup(function() {
+            loadProducts();
+        })
+        $("#sSearch").change(function() {
+            loadProducts();
+        })
+        $("#sIndex").change(function() {
+            loadProducts();
+        });
         // Handle Validate
         $(document).ready(function() {
+            $.validator.addMethod("IMAGES", function(value, element) {
+                return this.optional(element) || /^http[^ \!@\$\^&\(\)\+\=]+(\.png|\.jpeg|\.gif|\.jpg)$/i.test(value);
+            }, "Sai định dạng hình ảnh, vui lòng nhập lại!");
+
             $("#cForm").validate({
                 rules: {
-                    name: "required"
+                    name: "required",
+                    price: {
+                        required: true,
+                        number: true
+                    },
+                    images: "required IMAGES"
                 },
                 messages: {
-                    name: "Vui lòng điền tên danh mục..."
+                    name: "Tên sản phẩm không được để trống",
+                    price: {
+                        required: "Giá bán không được để trống",
+                        number: "Sai kiểu định dạng giá bán"
+                    },
+                    images: {
+                        required: "Hình ảnh sản phẩm không được để trống"
+                    }
                 }
             })
         });
+        var editElement = '<input name="id" value="{{id}}" class="form-control" type="hidden">' + '<div class="mb-3">' +
+            '<label for="name" class="form-label">Tên sản phẩm:</label>' +
+            '<input name="name" value="{{name}}" class="form-control" id="name" placeholder="Tên sản phẩm...">' +
+            '</div>';
+        editElement += '<div class="mb-3">' +
+            '<label for="price" class="form-label">Giá bán:</label>' +
+            '<input name="price" value="{{price}}" class="form-control" id="price" placeholder="Giá bán...">' +
+            '</div>';
+        editElement += '<div class="mb-3">' +
+            '<label for="images" class="form-label">Link hình ảnh:</label>' +
+            '<input name="images" value="{{images}}" class="form-control" id="images" placeholder="Link hình ảnh...">' +
+            '</div>';
+        editElement += '<div class="mb-3">' +
+            '<label for="description" class="form-label">Mô tả:</label>' +
+            '<input name="description" value="{{description}}" class="form-control" id="description" placeholder="Mô tả...">' +
+            '</div>';
+        var editHandleBars = Handlebars.compile(editElement);
 
         function bindEdit() {
             $(".edit").click(function() {
                 var id = $(this).attr("c-id");
-                fetch("/api/category")
+                fetch(url + "/" + id)
                     .then((res) => res.json())
-                    .then((data) => {
-                        var selectedCategory = categorySelectedHandleBar({
-                            categories: data,
-                        });
-                        fetch(url + "/" + id)
-                            .then(res => res.json())
-                            .then(data => {
-                                var addElement = '<div class="mb-3">' +
-                                    '<label for="name" class="form-label">Tên sản phẩm:</label>' +
-                                    '<input name="name" value="{{name}}" class="form-control" id="name" placeholder="Tên sản phẩm...">' +
-                                    '</div>';
-                                addElement += '<div class="mb-3">' +
-                                    '<label for="price" class="form-label">Giá bán:</label>' +
-                                    '<input name="price" value="{{price}}" class="form-control" id="price" placeholder="Giá bán...">' +
-                                    '</div>';
-                                addElement += '<div class="mb-3">' +
-                                    '<label for="images" class="form-label">Link hình ảnh:</label>' +
-                                    '<input name="images" value="{{images}}" class="form-control" id="images" placeholder="Link hình ảnh...">' +
-                                    '</div>';
-                                addElement += selectedCategory;
-                                addElement += '<div class="mb-3">' +
-                                    '<label for="description" class="form-label">Mô tả:</label>' +
-                                    '<input name="description" value="{{description}}" class="form-control" id="description" placeholder="Mô tả...">' +
-                                    '</div>';
-                                var editHandleBars = Handlebars.compile(addElement);
-                                var editHTML = editHandleBars(data);
+                    .then((product) => {
+                        var editHTML = editHandleBars(product);
+                        fetch("/api/category")
+                            .then((res) => res.json())
+                            .then((categories) => {
+                                var categorySelectHtml = categorySelectedHandleBar({
+                                    categories: categories,
+                                });
+                                editHTML += categorySelectHtml;
                                 $("#cForm").html(editHTML);
+                                $("#selectedCate").val(product.category.id)
                             });
                     });
             });
         }
+
         $("#save").click(function() {
             var editProduct = FormDataJson.formToJson(document.querySelector("form"));
-            var id = $(this).attr("idProduct");
             var editOption = {
                 method: 'PUT',
                 headers: {
@@ -259,7 +328,7 @@
 
             };
             if ($("#cForm").valid()) {
-                fetch(url + "/" + id, editOption)
+                fetch(url, editOption)
                     .then(response => response.json())
                     .then(data => {
                         loadProducts();
@@ -326,6 +395,9 @@
         });
         $(".save").click(function() {
             var addProduct = FormDataJson.formToJson(document.querySelector("#cForm"));
+            addProduct.category = {
+                id: addProduct.categoryId
+            }
             var createOption = {
                 method: 'POST',
                 headers: {

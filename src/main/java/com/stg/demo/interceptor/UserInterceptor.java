@@ -18,8 +18,8 @@ public class UserInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// nếu giỏ hàng trống thì chuyển về trang chủ
-		if (!customerService.isCustomerLogin()) {
-			response.sendRedirect("/error");
+		if (!customerService.isCustomerLogin() || !customerService.isAdmin()) {
+			response.sendRedirect("/home");
 			return false;
 		}
 		return true;

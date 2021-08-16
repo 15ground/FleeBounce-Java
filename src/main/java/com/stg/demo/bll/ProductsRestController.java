@@ -49,7 +49,7 @@ public class ProductsRestController {
 		productsResponsitory.deleteById(id);
 	}
 
-	private static final int LIMIT_ITEMS = 3;
+	private static final int LIMIT_ITEMS = 5;
 	@PostMapping("api/products/search")
 	public Page<Products> search(@RequestBody SearchForm sf){
 		Pageable paging = PageRequest.of(sf.getPage(),

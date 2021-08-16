@@ -32,8 +32,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(cartInterceptor).addPathPatterns("/check-out", "/your-cart");
-		// registry.addInterceptor(userInterceptor).addPathPatterns("/products/*", "/category/*", "/order/*",
-		// 		"/dashboard");
+		registry.addInterceptor(userInterceptor).addPathPatterns("/products/list", "/category/*", "/order/*",
+				"/dashboard");
 		// set da ngon ngu
 		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
 		lci.setParamName("lang");

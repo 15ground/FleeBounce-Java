@@ -35,6 +35,10 @@ public class CustomerServiceImpl implements CustomerService {
 		customerSession.setCustomer(null);
 		return true;
 	}
+	@Override
+	public void ConfirmLogout() {
+		customerSession.setCustomer(null);
+	}
 
 	@Override
 	public boolean Login(String phoneNumber, String password) {
@@ -49,6 +53,10 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public boolean isCustomerLogin() {
 		return customerSession.getCustomer() != null;
+	}
+	@Override
+	public boolean isAdmin() {
+		return customerSession.getCustomer().getRole().equals("admin");
 	}
 	
 }
