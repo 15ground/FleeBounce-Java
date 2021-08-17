@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.stg.demo.model.Order;
 import com.stg.demo.model.SearchForm;
-import com.stg.demo.reponsitory.OrderItemsRepository;
 import com.stg.demo.reponsitory.OrderRepository;
 
 @Controller
@@ -22,8 +21,6 @@ import com.stg.demo.reponsitory.OrderRepository;
 public class OrdersController {
 	@Autowired
 	OrderRepository orderRepository;
-	@Autowired
-	OrderItemsRepository orderItemsRepository;
 	// Cài đặt tối đa 5 sản phẩm trên 1 trang Dashboard
 	private static final int MAX_ITEMS = 5;
 

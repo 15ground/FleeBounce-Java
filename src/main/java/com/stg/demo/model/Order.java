@@ -17,6 +17,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 // table sql, chua data sql , luu data va sql
 // doc cart -> orderItem
 @Entity(name = "orders")
@@ -28,10 +30,13 @@ public class Order {
 
 	@NotNull
 	private Date created = new Date((new java.util.Date()).getTime());
+
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "customer_id", nullable = false, foreignKey = @ForeignKey(name = "id"))
 	Customer customer;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderItems> order_items;
 
@@ -81,7 +86,6 @@ public class Order {
 		}
 		return total;
 	}
-
 	public void setTotal(float total) {
 		this.total = total;
 	}
