@@ -3,29 +3,59 @@
 
 <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/products.css}">
     <link rel="stylesheet" th:href="@{/css/form.css}">
     <title>Xác nhận đơn hàng</title>
 </head>
 
 <body>
     <h2 class="pro-title" style="margin-top: 90px;">Vui lòng xác nhận đơn hàng của bạn</h2>
-    <form class="form-add" action="check-out" method="post" th:object="${order}" style="width: 1040px;margin-left: 273px;">
-        <input th:field="*{id}" type="hidden" />
-        <br />
-        <label th:name="name">Họ và tên:</label>
-        <input th:name="name" th:value=" ${name}" placeholder="Họ và tên... "></input>
-        <div th:errors=*{name} style="color:red;margin-left: 10px;font-style: italic; "></div>
-        <br />
-        <label th:name="phoneNumber">Số điện thoại:</label>
-        <input th:name="phoneNumber" th:value="${phoneNumber} " placeholder="Số điện thoại... "></input>
-        <div th:errors=*{phoneNumber} style="color:red;margin-left: 10px;font-style: italic; "></div>
-        <br />
-        <label th:name="address">Địa chỉ nhận hàng:</label>
-        <input th:name="address" th:value="${address} " placeholder="Địa chỉ nhận hàng... "></input>
-        <div th:errors=*{address} style="color:red;margin-left: 10px;font-style: italic; "></div>
-        <br />
-        <button class="btn-add " style="width: 200px; margin: 30px auto 0; " value="Xác nhận ">Xác nhận</button>
-    </form>
+    <div class="small-container" style="margin-bottom: 230px;">
+        <div class="content cart-page" id="cartPage">
+            <table>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+                <div th:each="cart:${cart.cartDetails}">
+                    <tr>
+                        <td>
+                            <div class="cart-info">
+                                <img th:src="${cart.key.images}" />
+                                <div>
+                                    <p>[[${cart.key.name }]]</p>
+                                    <small>Giá tiền: [[${#numbers.formatInteger(cart.key.price, 0,'POINT') }]]đ
+									</small> <br />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <h4 style="white-space: nowrap; margin-left: 20px;">[[${cart.value }]]</h4>
+                        </td>
+                        <td>
+                            [[${#numbers.formatInteger(cart.value*cart.key.price, 0,'POINT')}]]đ</td>
+                    </tr>
+                </div>
+            </table>
+        </div>
+        <form class="form-add" action="check-out" method="post" th:object="${order}" style="width: 1030px;">
+            <input th:field="*{id}" type="hidden" />
+            <br />
+            <label th:name="name">Họ và tên:</label>
+            <input th:name="name" th:value=" ${name}" placeholder="Họ và tên... "></input>
+            <div th:errors=*{name} style="color:red;margin-left: 10px;font-style: italic; "></div>
+            <br />
+            <label th:name="phoneNumber">Số điện thoại:</label>
+            <input th:name="phoneNumber" th:value="${phoneNumber} " placeholder="Số điện thoại... "></input>
+            <div th:errors=*{phoneNumber} style="color:red;margin-left: 10px;font-style: italic; "></div>
+            <br />
+            <label th:name="address">Địa chỉ nhận hàng:</label>
+            <input th:name="address" th:value="${address} " placeholder="Địa chỉ nhận hàng... "></input>
+            <div th:errors=*{address} style="color:red;margin-left: 10px;font-style: italic; "></div>
+            <br />
+            <button class="btn-add " style="width: 200px; margin: 30px auto 0; " value="Xác nhận ">Xác nhận</button>
+        </form>
 
 </body>
 

@@ -625,6 +625,12 @@ th:last-child {
     border-radius: 19px;
 }
 
+.btn-cart-add:hover,
+.btn-cart-minus:hover {
+    background-color: #ff1464;
+    color: #fff;
+}
+
 .disable-minus {
     margin-left: -10px;
     margin-right: 4px;

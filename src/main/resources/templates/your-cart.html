@@ -28,33 +28,49 @@
                                         <img th:src="${cart.key.images }" />
                                         <div>
                                             <p>[[${cart.key.name }]]</p>
-                                            <small>[[${cart.key.price }]]
+                                            <small>Giá tiền: [[${#numbers.formatInteger(cart.key.price, 0,'POINT') }]]đ
                                                 </small> <br />
-                                            <button>Bỏ</button>
+                                            <button th:onclick="'xoaSP('+ *{cart.key.id} +')'" id="${cart.key.id }">Bỏ</button>
                                         </div>
                                     </div>
                                 </td>
-                                <td><button>-</button> [[${cart.value }]]
-                                    <button>+</button></td>
+
                                 <td>
-                                    [[${cart.value*cart.key.price}]]
+
+                                    <th:block th:if="${cart.value >= 2}">
+                                        <button class=" btn-cart-minus" th:onclick="'truSP('+ *{cart.key.id} +')'" id="${cart.key.id}">-</button>
+                                    </th:block> [[${cart.value }]]
+                                    <th:block th:if="${cart.value <= 9}">
+                                        <button class="btn-cart-add" th:onclick="'congSP('+ *{cart.key.id} +')'" id="${cart.key.id}">+</button>
+                                    </th:block>
+                                </td>
+                                <td>
+                                    [[${#numbers.formatInteger(cart.value*cart.key.price, 0,'POINT')}]]
+                                </td>
                             </tr>
                         </th:block>
                     </table>
-                    <a class="btn-add" th:href="@{/check-out}">THANH TOÁN</a>
-                    <h4 style="white-space: nowrap; margin: 1px auto;">hoặc</h4>
-                    <a class="btn-add" th:href="@{/home}">TIẾP TỤC MUA HÀNG</a>
+                </div>
+                <div class="total-price">
+                    <table>
+                        <tr>
+                            <td> </td>
+                        </tr>
+                    </table>
+                    <a class="btn-add " th:href="@{/check-out} ">THANH TOÁN</a>
+                    <h4 style="white-space: nowrap; margin: 1px auto; ">hoặc</h4>
+                    <a class="btn-add " th:href="@{/home} ">TIẾP TỤC MUA HÀNG</a>
                 </div>
             </div>
         </section>
-        <div th:replace="Components/otherfooter :: otherfooter" th:remove="tag"></div>
+        <div th:replace="Components/otherfooter :: otherfooter " th:remove="tag "></div>
     </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js " integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN " crossorigin="anonymous "></script>
 <script>
     function truSP(ev) {
         let id = $(ev.target).attr('id');
-        fetch('/tru-san-pham/' + id)
+        fetch('/tru-san-pham/' + ev)
             .then(response => response.text())
             .then(data => {
                 $('#table-content').html(data);
@@ -63,7 +79,7 @@
 
     function congSP(ev) {
         let id = $(ev.target).attr('id');
-        fetch('/them-vao-gio/' + id)
+        fetch('/them-vao-gio/' + ev)
             .then(response => response.text())
             .then(data => {
                 $('#table-content').html(data);
@@ -71,11 +87,11 @@
     }
 
     function xoaSP(ev) {
-        let ok = confirm("Xác nhận xóa?");
+        let ok = confirm("Xác nhận xóa? ");
         if (ok == true) {
             let id = $(ev.target).attr('id');
             console.log(id);
-            fetch('/xoa-san-pham/' + id)
+            fetch('/xoa-san-pham/' + ev)
                 .then(response => response.text())
                 .then(data => {
                     $('#table-content').html(data);
