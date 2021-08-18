@@ -170,6 +170,7 @@ public class HomeController {
 			@Validated @ModelAttribute("customer") Customer customer, BindingResult result, Model model) {
 		// valid data
 		if (result.hasErrors()) {
+			model.addAttribute("cartStatus", cartStatus);
 			return "register";
 		}
 		// check dang ki
